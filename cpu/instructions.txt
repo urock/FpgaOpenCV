@@ -1,0 +1,8 @@
+компиляция:
+g++ color_test.cpp -lopencv_highgui -lopencv_imgproc -lopencv_videoio -lopencv_core
+
+запуск:
+./a.out
+
+вместе с программой в папке должен быть файл example.avi
+или другой видео-файл, если изменить строку 16

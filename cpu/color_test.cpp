@@ -13,7 +13,7 @@ using namespace std;
 int main()
 {
 	VideoCapture cap;
-	cap.open("input/MOV_0005.mov");
+	cap.open("example.avi");
 	//cap.open(0);
 	if ( !cap.isOpened() )  // if not success, exit program
     {
