@@ -1,8 +1,29 @@
 компиляция:
-g++ color_test.cpp -lopencv_highgui -lopencv_imgproc -lopencv_videoio -lopencv_core
+g++ color_detect_test.cpp -lopencv_highgui -lopencv_imgproc -lopencv_videoio -lopencv_core -o detect
+g++ color_calibration.cpp -lopencv_highgui -lopencv_imgproc -lopencv_videoio -lopencv_core -o calib
+
 
 запуск:
-./a.out
+./calib
+./detect
 
-вместе с программой в папке должен быть файл example.avi
-или другой видео-файл, если изменить строку 16
+
+Вместе с программой в папке должен быть файл example.AVI
+
+
+Перед запуском нужно задать нужные параметры цвета объекта.
+
+Для этого нужно запустить программу calib и подобрать в окне
+control такие параметры, чтобы в окне Thresholded image был
+виден силуэт нужного объекта и как можно меньше постороннего
+шума.
+
+Теперь calib можно закрыть. Появится файл settings. В нем должно
+быть 6 строк. Если это не так, нужно повторить настройку с calib.
+
+
+
+После этого можно запускать detect. Когда программа завершит работу,
+появится файл output.AVI, в котором нужный объект отмечен красной
+стрелкой. И файл cords_output.txt, с координатами объекта последовательно
+в каждом кадре, где он есть.
