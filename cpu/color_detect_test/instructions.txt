@@ -1,3 +1,8 @@
+Программа находит в видео-файле объект заданного цвета и записывает его координаты
+в разные моменты времени в текстовый файл, а так же отмечает его красной стрелкой
+в новом видео-файле
+
+
 компиляция:
 g++ color_detect_test.cpp -lopencv_highgui -lopencv_imgproc -lopencv_videoio -lopencv_core -o detect
 g++ color_calibration.cpp -lopencv_highgui -lopencv_imgproc -lopencv_videoio -lopencv_core -o calib
@@ -11,7 +16,7 @@ g++ color_calibration.cpp -lopencv_highgui -lopencv_imgproc -lopencv_videoio -lo
 Вместе с программой в папке должен быть файл example.AVI
 
 
-Перед запуском нужно задать нужные параметры цвета объекта.
+Перед запуском нужно задать параметры цвета объекта.
 
 Для этого нужно запустить программу calib и подобрать в окне
 control такие параметры, чтобы в окне Thresholded image был

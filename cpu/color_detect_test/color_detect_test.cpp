@@ -13,25 +13,29 @@ using namespace std;
 
 int main()
 {
+	// создать объект видео-потока и открыть файл
 	VideoCapture cap;
 	cap.open("example.AVI");
-	//cap.open(0);
 	if ( !cap.isOpened() )  // if not success, exit program
     {
          cout << "Cannot open file" << endl;
          return -1;
     }
     
+    // диапазон значений Hue (тон в модели HSV), в котором обнаруживается объект
 	int iLowH = 2;
 	int iHighH = 27;
 	
+	// Saturation насыщенность
 	int iLowS = 200; 
 	int iHighS = 255;
 	
+	// Value яркость
 	int iLowV = 70;
 	int iHighV = 255;
 	
-	// read settings from file
+	// прочитать настройки тех ^ параметров из файла настроек
+	// если файла нет, останутся по-умолчанию
 	ifstream settings("settings");
 	if( settings.is_open() ){
 		string line;
@@ -51,8 +55,9 @@ int main()
 		ss >> iHighV;
 	}
 	
+	// создать контейнер для текущего изображения
 	Mat imgIn;
-	Mat imgOut = imgIn;
+	Mat imgOut;
 	
 	int iLastX = -1;
 	int iLastY = -1;
@@ -61,6 +66,7 @@ int main()
 	Size S = Size((int) cap.get(CV_CAP_PROP_FRAME_WIDTH),    // Acquire input size
                   (int) cap.get(CV_CAP_PROP_FRAME_HEIGHT));
     
+    // создать поток вывода видео
 	VideoWriter wr;
 	wr.open("output.AVI", cap.get(CV_CAP_PROP_FOURCC), cap.get(CV_CAP_PROP_FPS), S, true);
 	
@@ -69,29 +75,39 @@ int main()
 		return -1;
 	}
 	
+	// файл для записи координат
 	ofstream cordsFile;
 	cordsFile.open("cords_output.txt");
 	
-	while(cap.read(imgIn)){
+	while(cap.read(imgIn)){ // read читает один кадр из потока и возвращает false если поток закончился
 		imgOut = imgIn;
 		
 		Mat imgHSV;
+		// пребразовать изображение из BGR в HSV
 		cvtColor(imgIn, imgHSV, COLOR_BGR2HSV);
 		
+		// здесь будет бинарное изображение, которое означает,
+		// попал ли нужный пиксель в определенный выше диапазон
 		Mat imgThresholded;
 		inRange(imgHSV, Scalar(iLowH, iLowS, iLowV), Scalar(iHighH, iHighS, iHighV), imgThresholded);
 		
 		//morphological opening (removes small objects from the foreground)
+		// стянуть границы "белых" областей
 		erode(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
+		// снова расширить границы
 		dilate( imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) ); 
 		
 		//morphological closing (removes small holes from the foreground)
 		dilate( imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) ); 
 		erode(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
 		
-		//Calculate the moments of the thresholded image
 		Moments oMoments = moments(imgThresholded);
+		// Момент изображения - сумма вида summ(x^p * y^q * f(x, y)) по пикселям
+		// где f(x, y) дает 1 либо 0 в зависимости от цвета
+		// p + q = n - порядок момента
 		
+		// моменты первого порядка - это координаты геометрического центра белой области
+		// момент нулегого порядка - площадь белой области
 		double dM01 = oMoments.m01;
 		double dM10 = oMoments.m10;
 		double dArea = oMoments.m00;
@@ -102,8 +118,7 @@ int main()
 			int posY = dM01 / dArea;        
 			if (iLastX >= 0 && iLastY >= 0 && posX >= 0 && posY >= 0)
 			{
-				//Draw a red line from the previous point to the current point
-				//line(imgOut, Point(posX, posY), Point(iLastX, iLastY), Scalar(0,0,255), 2);
+				// отметить красной стрелкой объект
 				line(imgOut, Point(posX, posY), Point(0, 0), Scalar(0,0,255), 2);
 			}
 			iLastX = posX;
@@ -112,6 +127,7 @@ int main()
 			cordsFile << posX << ' ' << posY << '\n';
 		}
 		
+		// записать кадр с отмеченным объектом в output файл
 		wr.write(imgOut);
 	}
 	

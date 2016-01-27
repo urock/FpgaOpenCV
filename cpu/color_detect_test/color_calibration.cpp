@@ -9,6 +9,8 @@
 using namespace cv;
 using namespace std;
 
+// см. комментарии к коду color_detect_test.cpp , здесь нет ничего нового
+
  int main( int argc, char** argv )
  {
 //    VideoCapture cap(0); //capture the video from web cam
