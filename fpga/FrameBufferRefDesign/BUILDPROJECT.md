@@ -9,8 +9,8 @@
 7. in tcl console 
 	
 
-cd REPO_PATH\fpga\FrameBufferRefDesign\embv_python1300c\Scripts
-source ./make_embv_python1300c_fb.tcl
+`cd REPO_PATH\fpga\FrameBufferRefDesign\embv_python1300c\Scripts
+source ./make_embv_python1300c_fb.tcl`
 
 
 The build will perform the following steps: 
