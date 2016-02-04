@@ -8,10 +8,11 @@
 	6. open Vivado 2015.2 (tip: it should be restarted after evaluation license)
 	7. in tcl console 
 	
-```
+
+	```
 cd REPO_PATH\fpga\FrameBufferRefDesign\embv_python1300c\Scripts
 source ./make_embv_python1300c_fb.tcl
-``` 
+	``` 
 
 The build will perform the following steps: 
  
