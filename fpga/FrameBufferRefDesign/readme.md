@@ -4,4 +4,4 @@ List of needed IPs:
 ![1]
 
 
-[1]: ips.jpg
+[1]: ips.JPG
