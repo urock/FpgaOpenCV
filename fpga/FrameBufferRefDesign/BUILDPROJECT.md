@@ -1,6 +1,7 @@
 # Build project instruction
 
 1. git clone REPO_URL
+2. git checkout fpga/ref_design
 2. git submodule init
 3. git submodule update
 4.  in case you have no license for IPs visit [link][1] and evaluate license
