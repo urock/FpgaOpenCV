@@ -1,0 +1,3 @@
+[submodule "fpga/FrameBufferRefDesign/embv_python1300c"]
+	path = fpga/FrameBufferRefDesign/embv_python1300c
+	url = https://github.com/Avnet/hdl.git
