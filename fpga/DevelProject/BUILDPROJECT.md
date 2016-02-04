@@ -24,4 +24,4 @@ In case any quesions have a look at [official guide][3]
 	
 [1]: http://www.xilinx.com/products/intellectual-property/ef-di-vid-img-ip-pack.html
 [2]: http://microzed.org/support/documentation/1519
-[3]: EMBV_PYTHON1300C_Frame_Buffer_Tutorial_2015_2_01.pdf
+[3]: ../FrameBufferRefDesign/EMBV_PYTHON1300C_Frame_Buffer_Tutorial_2015_2_01.pdf
