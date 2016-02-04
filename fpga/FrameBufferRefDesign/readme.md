@@ -6,11 +6,11 @@ List of IPs, which are4 used in this project:
 
 
 The IPs, which require license:
-1. [Color Filter Array Interpolation (CFA) v7.0][4]
-2. [Chroma Resampler v4.0][3]
-3. [Video On Screen Display (OSD) v6.0][2]
-4. [RGB to YcrCb Color-Space Converter v7.1][5]
-5. [Video Timing Controller (VTC) v6.1][6]
+1  [Color Filter Array Interpolation (CFA) v7.0][4]
+2  [Chroma Resampler v4.0][3]
+3  [Video On Screen Display (OSD) v6.0][2]
+4  [RGB to YcrCb Color-Space Converter v7.1][5]
+5  [Video Timing Controller (VTC) v6.1][6]
 
 
 [1]: ips.JPG
