@@ -1,0 +1,9 @@
+Простой пример обнаружения пешеходов в видеофайле.
+
+Принимает на вход example.AVI, записывает output.AVI c обведенными пешеходами.
+
+компиляция:
+g++ main.cpp -lopencv_core -lopencv_objdetect -lopencv_highgui
+
+запуск:
+./a.out
