@@ -1,0 +1,267 @@
+Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------
+| Tool Version      : Vivado v.2015.2 (win64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
+| Date              : Mon Feb 08 17:17:58 2016
+| Host              : xserverPC running 64-bit major release  (build 7600)
+| Command           : report_clock_utilization -file embv_python1300c_fb_wrapper_clock_utilization_routed.rpt
+| Design            : embv_python1300c_fb_wrapper
+| Device            : 7z020-clg400
+| Speed File        : -1  PRODUCTION 1.11 2014-09-11
+| Temperature Grade : C
+--------------------------------------------------------------------------------------------------------------
+
+Clock Utilization Report
+
+Table of Contents
+-----------------
+1. Clock Primitive Utilization
+2. Details of Global Clocks
+3. Details of Regional Clocks
+4. Details of Multi-Regional Clocks
+5. Details of I/O Clocks
+6. Details of Local Clocks
+7. Clock Regions : Key Resource Utilization
+8. Net wise resources used in clock region X0Y0
+9. Net wise resources used in clock region X1Y0
+10. Net wise resources used in clock region X0Y1
+11. Net wise resources used in clock region X1Y1
+12. Net wise resources used in clock region X0Y2
+13. Net wise resources used in clock region X1Y2
+
+1. Clock Primitive Utilization
+------------------------------
+
++-------+------+-----------+-----------+
+| Type  | Used | Available | Num Fixed |
++-------+------+-----------+-----------+
+| BUFG  |    5 |        32 |         0 |
+| BUFH  |    0 |        72 |         0 |
+| BUFIO |    1 |        16 |         1 |
+| MMCM  |    0 |         4 |         0 |
+| PLL   |    1 |         4 |         0 |
+| BUFR  |    2 |        16 |         0 |
+| BUFMR |    0 |         8 |         0 |
++-------+------+-----------+-----------+
+
+
+2. Details of Global Clocks
+---------------------------
+
++-------+-----------------------------------------------------------------------------------+---------------------------------------------------------------------------------+---------------+-------+
+|       |                                                                                   |                                                                                 |   Num Loads   |       |
++-------+-----------------------------------------------------------------------------------+---------------------------------------------------------------------------------+-------+-------+-------+
+| Index | BUFG Cell                                                                         | Net Name                                                                        |  BELs | Sites | Fixed |
++-------+-----------------------------------------------------------------------------------+---------------------------------------------------------------------------------+-------+-------+-------+
+|     1 | embv_python1300c_fb_i/clk_wiz_0/U0/clkf_buf                                       | embv_python1300c_fb_i/clk_wiz_0/U0/clkfbout_buf_embv_python1300c_fb_clk_wiz_0_0 |     1 |     1 |    no |
+|     2 | embv_python1300c_fb_i/processing_system7_0/inst/buffer_fclk_clk_2.FCLK_CLK_2_BUFG | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK2                       |     2 |     2 |    no |
+|     3 | embv_python1300c_fb_i/clk_wiz_0/U0/clkout1_buf                                    | embv_python1300c_fb_i/clk_wiz_0/U0/clk_out1                                     |   638 |   248 |    no |
+|     4 | embv_python1300c_fb_i/processing_system7_0/inst/buffer_fclk_clk_0.FCLK_CLK_0_BUFG | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0                       |  3992 |  1297 |    no |
+|     5 | embv_python1300c_fb_i/processing_system7_0/inst/buffer_fclk_clk_1.FCLK_CLK_1_BUFG | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1                       | 17491 |  4944 |    no |
++-------+-----------------------------------------------------------------------------------+---------------------------------------------------------------------------------+-------+-------+-------+
+
+
++-------+---------------------------------------------------+-----------------------------------------------------------------------------+--------------+-------+
+|       |                                                   |                                                                             |   Num Loads  |       |
++-------+---------------------------------------------------+-----------------------------------------------------------------------------+------+-------+-------+
+| Index | PLL Cell                                          | Net Name                                                                    | BELs | Sites | Fixed |
++-------+---------------------------------------------------+-----------------------------------------------------------------------------+------+-------+-------+
+|     1 | embv_python1300c_fb_i/clk_wiz_0/U0/plle2_adv_inst | embv_python1300c_fb_i/clk_wiz_0/U0/clk_out1_embv_python1300c_fb_clk_wiz_0_0 |    1 |     1 |    no |
+|     2 | embv_python1300c_fb_i/clk_wiz_0/U0/plle2_adv_inst | embv_python1300c_fb_i/clk_wiz_0/U0/clkfbout_embv_python1300c_fb_clk_wiz_0_0 |    1 |     1 |    no |
++-------+---------------------------------------------------+-----------------------------------------------------------------------------+------+-------+-------+
+
+
+3. Details of Regional Clocks
+-----------------------------
+
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+-------+
+|       |                                                                                                                                                                                                                                             |                                                                                                                                                                 |   Num Loads  |       |
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-------+-------+
+| Index | BUFR Cell                                                                                                                                                                                                                                   | Net Name                                                                                                                                                        | BELs | Sites | Fixed |
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-------+-------+
+|     1 | embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/gen_no_ls_clk_in.gen_regional_hs_clk_in.gen_multiplier_5.BUFR_regional_hs_clk_in | embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/I556 |  174 |   100 |    no |
+|     2 | embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/vita_clk_div4_l                                                                                                                                              | embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/vita_clk                                                                         | 2041 |   717 |    no |
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-------+-------+
+
+
+4. Details of Multi-Regional Clocks
+-----------------------------------
+
+5. Details of I/O Clocks
+------------------------
+
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+-------+
+|       |                                                                                                                                                                                                                          |                                                                                                                                                                                      |   Num Loads  |       |
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-------+-------+
+| Index | BUFIO Cell                                                                                                                                                                                                               | Net Name                                                                                                                                                                             | BELs | Sites | Fixed |
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-------+-------+
+|     1 | embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/gen_hs_clk_in.gen_regional_hs_clk_in.BUFIO_regional_hs_clk_in | embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/nomuxgen.SYNC_DATA_reg[0] |   10 |    20 |   yes |
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+-------+-------+
+
+
+6. Details of Local Clocks
+--------------------------
+
+7. Clock Regions : Key Resource Utilization
+-------------------------------------------
+
++-------------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+
+|                   | Global Clock |     BUFRs    |    BUFMRs    |    BUFIOs    |     MMCM     |      PLL     |      GT      |      PCI     |    ILOGIC    |    OLOGIC    |      FF      |     LUTM     |    RAMB18    |    RAMB36    |    DSP48E1   |
++-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
+| Clock Region Name | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail |
++-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
+| X0Y0              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 | 3326 | 20000 |  407 |  4000 |    0 |    60 |    5 |    30 |    4 |    60 |
+| X1Y0              |    5 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    1 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 | 5271 | 25600 |  317 |  3400 |    1 |    60 |    2 |    30 |    0 |    40 |
+| X0Y1              |    2 |    12 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 | 2770 |  9600 |  113 |  1600 |    1 |    20 |    0 |    10 |    4 |    20 |
+| X1Y1              |    3 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |   13 |    50 | 5819 | 20800 |  859 |  3400 |    1 |    60 |    7 |    30 |    8 |    40 |
+| X0Y2              |    3 |    12 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |  954 |  9600 |   22 |  1600 |    0 |    20 |    0 |    10 |    0 |    20 |
+| X1Y2              |    4 |    12 |    2 |     4 |    0 |     2 |    1 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |   10 |    50 |    5 |    50 | 4229 | 20800 |  137 |  3400 |    9 |    60 |    9 |    30 |    6 |    40 |
++-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
+* RAMB36 site can be used as two RAMB18/FIFO18 sites.
+
+
+8. Net wise resources used in clock region X0Y0
+-----------------------------------------------
+
++-------------+-------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+-----------------------------------------------------------+
+| Source Type | BUFHCE Site | Fixed | MMCM Pins | PLL Pins | GT Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s |                       Clock Net Name                      |
++-------------+-------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+-----------------------------------------------------------+
+| BUFG        | BUFHCE_X0Y9 |   no  |         0 |        0 |       0 |         0 |       0 |       0 |  107 |     1 |        0 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0 |
+| BUFG        | BUFHCE_X0Y8 |   no  |         0 |        0 |       0 |        10 |       0 |       0 | 3219 |   406 |        4 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1 |
++-------------+-------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+-----------------------------------------------------------+
+
+
+9. Net wise resources used in clock region X1Y0
+-----------------------------------------------
+
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+---------------------------------------------------------------------------------+
+| Source Type | BUFHCE Site  | Fixed | MMCM Pins | PLL Pins | GT Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s |                                  Clock Net Name                                 |
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+---------------------------------------------------------------------------------+
+| BUFG        | BUFHCE_X1Y0  |   no  |         0 |        1 |       0 |         0 |       0 |       0 |    0 |     0 |        0 | embv_python1300c_fb_i/clk_wiz_0/U0/clkfbout_buf_embv_python1300c_fb_clk_wiz_0_0 |
+| BUFG        | BUFHCE_X1Y1  |   no  |         0 |        1 |       0 |         0 |       0 |       0 |    0 |     0 |        0 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK2                       |
+| BUFG        | BUFHCE_X1Y10 |   no  |         0 |        0 |       0 |         3 |       0 |       0 |  279 |    21 |        0 | embv_python1300c_fb_i/clk_wiz_0/U0/clk_out1                                     |
+| BUFG        | BUFHCE_X1Y9  |   no  |         0 |        0 |       0 |         0 |       0 |       0 |  514 |     0 |        0 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0                       |
+| BUFG        | BUFHCE_X1Y8  |   no  |         0 |        0 |       0 |         3 |       0 |       0 | 4478 |   296 |        0 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1                       |
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+---------------------------------------------------------------------------------+
+
+
+10. Net wise resources used in clock region X0Y1
+------------------------------------------------
+
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+-----------------------------------------------------------+
+| Source Type | BUFHCE Site  | Fixed | MMCM Pins | PLL Pins | GT Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s |                       Clock Net Name                      |
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+-----------------------------------------------------------+
+| BUFG        | BUFHCE_X0Y21 |   no  |         0 |        0 |       0 |         0 |       0 |       0 |  938 |    98 |        0 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0 |
+| BUFG        | BUFHCE_X0Y20 |   no  |         0 |        0 |       0 |         1 |       0 |       0 | 1832 |    15 |        4 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1 |
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+-----------------------------------------------------------+
+
+
+11. Net wise resources used in clock region X1Y1
+------------------------------------------------
+
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+-----------------------------------------------------------+
+| Source Type | BUFHCE Site  | Fixed | MMCM Pins | PLL Pins | GT Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s |                       Clock Net Name                      |
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+-----------------------------------------------------------+
+| BUFG        | BUFHCE_X1Y23 |   no  |         0 |        0 |       0 |         0 |       0 |      14 |    5 |     6 |        0 | embv_python1300c_fb_i/clk_wiz_0/U0/clk_out1               |
+| BUFG        | BUFHCE_X1Y21 |   no  |         0 |        0 |       0 |         0 |       0 |       0 |  760 |    49 |        0 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0 |
+| BUFG        | BUFHCE_X1Y20 |   no  |         0 |        0 |       0 |        16 |       0 |       0 | 5054 |   804 |        8 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1 |
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+-----------------------------------------------------------+
+
+
+12. Net wise resources used in clock region X0Y2
+------------------------------------------------
+
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+-----+-------+----------+-----------------------------------------------------------+
+| Source Type | BUFHCE Site  | Fixed | MMCM Pins | PLL Pins | GT Pins | BRAM Pins | ILOGICs | OLOGICs | FFs | LUTMs | DSP48E1s |                       Clock Net Name                      |
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+-----+-------+----------+-----------------------------------------------------------+
+| BUFG        |      ---     |   no  |         0 |        0 |       0 |         0 |       0 |       0 |   0 |     0 |        0 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1 |
+| BUFG        | BUFHCE_X0Y33 |   no  |         0 |        0 |       0 |         0 |       0 |       0 |  47 |     0 |        0 | embv_python1300c_fb_i/clk_wiz_0/U0/clk_out1               |
+| BUFG        | BUFHCE_X0Y32 |   no  |         0 |        0 |       0 |         0 |       0 |       0 | 907 |    22 |        0 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0 |
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+-----+-------+----------+-----------------------------------------------------------+
+
+
+13. Net wise resources used in clock region X1Y2
+------------------------------------------------
+
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Source Type | BUFHCE Site  | Fixed | MMCM Pins | PLL Pins | GT Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s |                                                                                    Clock Net Name                                                                                    |
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| BUFIO       |      ---     |  yes  |         0 |        0 |       0 |         0 |      20 |       0 |    0 |     0 |        0 | embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/nomuxgen.SYNC_DATA_reg[0] |
+| BUFR        |      ---     |   no  |         0 |        0 |       0 |         5 |      10 |       0 |  154 |     0 |        0 | embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/I556                      |
+| BUFG        | BUFHCE_X1Y34 |   no  |         0 |        0 |       0 |         9 |       0 |       4 |  240 |     9 |        0 | embv_python1300c_fb_i/clk_wiz_0/U0/clk_out1                                                                                                                                          |
+| BUFG        | BUFHCE_X1Y33 |   no  |         0 |        0 |       0 |         0 |       0 |       0 |  595 |     0 |        0 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0                                                                                                                            |
+| BUFG        | BUFHCE_X1Y32 |   no  |         0 |        0 |       0 |         9 |       0 |       0 | 1255 |    86 |        6 | embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1                                                                                                                            |
+| BUFR        |      ---     |   no  |         0 |        0 |       0 |        12 |       0 |       2 | 1985 |    42 |        0 | embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/vita_clk                                                                                              |
++-------------+--------------+-------+-----------+----------+---------+-----------+---------+---------+------+-------+----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+
+# Location of BUFG Primitives 
+set_property LOC BUFGCTRL_X0Y0 [get_cells embv_python1300c_fb_i/clk_wiz_0/U0/clkout1_buf]
+set_property LOC BUFGCTRL_X0Y1 [get_cells embv_python1300c_fb_i/clk_wiz_0/U0/clkf_buf]
+set_property LOC BUFGCTRL_X0Y17 [get_cells embv_python1300c_fb_i/processing_system7_0/inst/buffer_fclk_clk_0.FCLK_CLK_0_BUFG]
+set_property LOC BUFGCTRL_X0Y16 [get_cells embv_python1300c_fb_i/processing_system7_0/inst/buffer_fclk_clk_1.FCLK_CLK_1_BUFG]
+set_property LOC BUFGCTRL_X0Y18 [get_cells embv_python1300c_fb_i/processing_system7_0/inst/buffer_fclk_clk_2.FCLK_CLK_2_BUFG]
+
+# Location of IO Clock Primitives
+set_property LOC BUFIO_X1Y9 [get_cells embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/gen_hs_clk_in.gen_regional_hs_clk_in.BUFIO_regional_hs_clk_in]
+
+# Location of MMCM Clock Primitives
+
+# Location of BUFH Clock Primitives
+
+# Location of BUFR Clock Primitives
+set_property LOC BUFR_X1Y8 [get_cells embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/gen_no_ls_clk_in.gen_regional_hs_clk_in.gen_multiplier_5.BUFR_regional_hs_clk_in]
+set_property LOC BUFR_X1Y9 [get_cells embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/vita_clk_div4_l]
+
+# Location of BUFMR Clock Primitives
+
+# Location of PLL Clock Primitives
+set_property LOC PLLE2_ADV_X1Y0 [get_cells embv_python1300c_fb_i/clk_wiz_0/U0/plle2_adv_inst]
+
+# Location of IO Primitives which is load of clock spine
+
+# Location of clock ports
+set_property LOC IOB_X1Y123 [get_ports IO_PYTHON_CAM_clk_out_n]
+set_property LOC IOB_X1Y124 [get_ports IO_PYTHON_CAM_clk_out_p]
+
+# Clock net "embv_python1300c_fb_i/clk_wiz_0/U0/clk_out1" driven by instance "embv_python1300c_fb_i/clk_wiz_0/U0/clkout1_buf" located at site "BUFGCTRL_X0Y0"
+#startgroup
+create_pblock {CLKAG_embv_python1300c_fb_i/clk_wiz_0/U0/clk_out1}
+add_cells_to_pblock [get_pblocks  {CLKAG_embv_python1300c_fb_i/clk_wiz_0/U0/clk_out1}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL && NAME!=embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/vita_clk_div4_l} -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="embv_python1300c_fb_i/clk_wiz_0/U0/clk_out1"}]]]
+resize_pblock [get_pblocks {CLKAG_embv_python1300c_fb_i/clk_wiz_0/U0/clk_out1}] -add {CLOCKREGION_X0Y2:CLOCKREGION_X0Y2 CLOCKREGION_X1Y0:CLOCKREGION_X1Y0 CLOCKREGION_X1Y1:CLOCKREGION_X1Y1 CLOCKREGION_X1Y2:CLOCKREGION_X1Y2}
+#endgroup
+
+# Clock net "embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/I556" driven by instance "embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/gen_no_ls_clk_in.gen_regional_hs_clk_in.gen_multiplier_5.BUFR_regional_hs_clk_in" located at site "BUFR_X1Y8"
+#startgroup
+create_pblock {CLKAG_embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/I556}
+add_cells_to_pblock [get_pblocks  {CLKAG_embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/I556}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/I556"}]]]
+resize_pblock [get_pblocks {CLKAG_embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/onsemi_vita_cam_core_inst/vita_iserdes_v5.vita_iserdes/serdesclockgen[0].ic/I556}] -add {CLOCKREGION_X1Y2:CLOCKREGION_X1Y2}
+#endgroup
+
+# Clock net "embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/vita_clk" driven by instance "embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/vita_clk_div4_l" located at site "BUFR_X1Y9"
+#startgroup
+create_pblock {CLKAG_embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/vita_clk}
+add_cells_to_pblock [get_pblocks  {CLKAG_embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/vita_clk}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/vita_clk"}]]]
+resize_pblock [get_pblocks {CLKAG_embv_python1300c_fb_i/onsemi_python_cam_0/U0/onsemi_vita_cam_v3_1_S00_AXI_inst/vita_clk}] -add {CLOCKREGION_X1Y2:CLOCKREGION_X1Y2}
+#endgroup
+
+# Clock net "embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0" driven by instance "embv_python1300c_fb_i/processing_system7_0/inst/buffer_fclk_clk_0.FCLK_CLK_0_BUFG" located at site "BUFGCTRL_X0Y17"
+#startgroup
+create_pblock {CLKAG_embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0}
+add_cells_to_pblock [get_pblocks  {CLKAG_embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0"}]]]
+resize_pblock [get_pblocks {CLKAG_embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK0}] -add {CLOCKREGION_X0Y0:CLOCKREGION_X0Y0 CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X0Y2:CLOCKREGION_X0Y2 CLOCKREGION_X1Y0:CLOCKREGION_X1Y0 CLOCKREGION_X1Y1:CLOCKREGION_X1Y1 CLOCKREGION_X1Y2:CLOCKREGION_X1Y2}
+#endgroup
+
+# Clock net "embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1" driven by instance "embv_python1300c_fb_i/processing_system7_0/inst/buffer_fclk_clk_1.FCLK_CLK_1_BUFG" located at site "BUFGCTRL_X0Y16"
+#startgroup
+create_pblock {CLKAG_embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1}
+add_cells_to_pblock [get_pblocks  {CLKAG_embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1"}]]]
+resize_pblock [get_pblocks {CLKAG_embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK1}] -add {CLOCKREGION_X0Y0:CLOCKREGION_X0Y0 CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X0Y2:CLOCKREGION_X0Y2 CLOCKREGION_X1Y0:CLOCKREGION_X1Y0 CLOCKREGION_X1Y1:CLOCKREGION_X1Y1 CLOCKREGION_X1Y2:CLOCKREGION_X1Y2}
+#endgroup
+
+# Clock net "embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK2" driven by instance "embv_python1300c_fb_i/processing_system7_0/inst/buffer_fclk_clk_2.FCLK_CLK_2_BUFG" located at site "BUFGCTRL_X0Y18"
+#startgroup
+create_pblock {CLKAG_embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK2}
+add_cells_to_pblock [get_pblocks  {CLKAG_embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK2}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL && NAME!=embv_python1300c_fb_i/clk_wiz_0/U0/plle2_adv_inst} -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK2"}]]]
+resize_pblock [get_pblocks {CLKAG_embv_python1300c_fb_i/processing_system7_0/inst/FCLK_CLK2}] -add {CLOCKREGION_X1Y2:CLOCKREGION_X1Y2}
+#endgroup
