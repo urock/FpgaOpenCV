@@ -1,0 +1,6 @@
+the_ROM_image:
+{
+	[bootloader]p1300c.sdk\zynq_fsbl_app\Debug\zynq_fsbl_app.elf
+	p1300c.sdk\p1300c_fb_app\Debug\p1300c_fb_app.elf
+	p1300c.sdk\p1300c_fb_hw\p1300c_wrapper.bit
+}

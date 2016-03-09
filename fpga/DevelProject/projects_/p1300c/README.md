@@ -1,0 +1,1 @@
+to create a project run source ./make_embv_python1300c_fb.tcl
