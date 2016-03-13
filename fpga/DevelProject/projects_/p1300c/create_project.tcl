@@ -135,9 +135,18 @@ launch_runs impl_1 -to_step write_bitstream
 
 puts "INFO: Project created:p1300c"
 
+while {1} {
+   # stop if end of run detected
+   if {[file exists p1300c.runs/impl_1/.vivado.end.rst]} { 
+      puts "Found End of Bitstream Creation..."
+      break 
+   }
+# wait 1 second to check
+after 1000   
+} 
 
 set sdk "xsdk"
 puts "Attempting to Build SDK..."
-exec >@stdout 2>@stderr xsdk -batch -source ../../software_/p1300c_sdk.tcl -notrace
+exec  xsdk -batch -source ../../software_/p1300c_sdk.tcl -notrace
 puts "Generating BOOT.BIN..."
-exec >@stdout 2>@stderr bootgen -image ../../software_/p1300c_sd.bif -w -o BOOT.bin
+exec  bootgen -image ../../software_/p1300c_sd.bif -w -o BOOT.bin
