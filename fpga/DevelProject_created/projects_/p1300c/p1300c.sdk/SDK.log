@@ -1,0 +1,9 @@
+01:59:49 INFO  : Adding 'E:/users/tasha/git_dirs/refactor/FpgaOpenCV/fpga/DevelProject/software_/sw_repository' as a new local repository.
+02:13:19 INFO  : Launching XSDB server: xsdb.bat -s E:/Xilinx/SDK/2015.2/scripts/xsdb/xsdb/xsdb-server.tcl
+02:13:20 INFO  : XSDB server has started successfully.
+02:13:20 INFO  : Restoring local repository preferences: 
+		 E:/users/tasha/git_dirs/refactor/FpgaOpenCV/fpga/DevelProject/software_/sw_repository
+02:14:53 INFO  : Launching XSDB server: xsdb.bat -s E:/Xilinx/SDK/2015.2/scripts/xsdb/xsdb/xsdb-server.tcl
+02:14:54 INFO  : XSDB server has started successfully.
+02:14:54 INFO  : Restoring local repository preferences: 
+		 E:/users/tasha/git_dirs/refactor/FpgaOpenCV/fpga/DevelProject/software_/sw_repository
