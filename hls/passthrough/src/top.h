@@ -16,7 +16,7 @@ typedef hls::Scalar<3, unsigned char>                 RGB_PIXEL;
 typedef hls::Mat<MAX_HEIGHT, MAX_WIDTH, HLS_8UC3>     RGB_IMAGE;
 
 // top level function for HW synthesis
-void simple_pass_through_filter(AXI_STREAM& src_axi, AXI_STREAM& dst_axi);
+void simple_pass_through_filter(AXI_STREAM& src_axi, AXI_STREAM& dst_axi, int apply_filter);
 
 
 #endif
