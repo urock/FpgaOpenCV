@@ -1,0 +1,1 @@
+to create a project run source ./create_project.tcl

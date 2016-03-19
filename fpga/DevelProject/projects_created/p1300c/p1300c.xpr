@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Product Version: Vivado v2015.2 (64-bit)              -->
+<!--                                                         -->
+<!-- Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.   -->
+
+<Project Version="7" Minor="5" Path="E:/users/tasha/git_dirs/refactor/FpgaOpenCV/fpga/DevelProject_created/projects_/p1300c/p1300c.xpr">
+  <DefaultLaunch Dir="$PRUNDIR"/>
+  <Configuration>
+    <Option Name="Id" Val="5c9c1e8269884b5e967c52efc649a2d3"/>
+    <Option Name="Part" Val="xc7z020clg400-1"/>
+    <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
+    <Option Name="TargetLanguage" Val="VHDL"/>
+    <Option Name="BoardPart" Val=""/>
+    <Option Name="ActiveSimSet" Val="sim_1"/>
+    <Option Name="DefaultLib" Val="xil_defaultlib"/>
+    <Option Name="IPRepoPath" Val="$PPRDIR/../../../DevelProject/src_/ip"/>
+    <Option Name="EnableCoreContainer" Val="FALSE"/>
+    <Option Name="EnableCoreContainerForIPI" Val="FALSE"/>
+  </Configuration>
+  <FileSets Version="1" Minor="31">
+    <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
+      <Filter Type="Srcs"/>
+      <File Path="$PSRCDIR/sources_1/bd/p1300c/p1300c.bd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_processing_system7_0_0/p1300c_processing_system7_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_onsemi_python_spi_0_0/p1300c_onsemi_python_spi_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_clk_wiz_0_0/p1300c_clk_wiz_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_onsemi_python_cam_0_0/p1300c_onsemi_python_cam_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_axi_vdma_0_0/p1300c_axi_vdma_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_avnet_hdmi_out_0_0/p1300c_avnet_hdmi_out_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_xbar_0/p1300c_xbar_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_axi_vdma_1_0/p1300c_axi_vdma_1_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_axi_mem_intercon_0/p1300c_axi_mem_intercon_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_auto_pc_0/p1300c_auto_pc_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_xlconstant_0_0/p1300c_xlconstant_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="hdl/p1300c.hwdef"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="hw_handoff/p1300c_bd.tcl"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_v_rgb2ycrcb_0_0/p1300c_v_rgb2ycrcb_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_v_osd_0_0/p1300c_v_osd_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_v_axi4s_vid_out_0_0/p1300c_v_axi4s_vid_out_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_v_vid_in_axi4s_0_0/p1300c_v_vid_in_axi4s_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_rst_processing_system7_0_76M_0/p1300c_rst_processing_system7_0_76M_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_rst_processing_system7_0_149M_0/p1300c_rst_processing_system7_0_149M_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_rst_processing_system7_0_108M_0/p1300c_rst_processing_system7_0_108M_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_xbar_1/p1300c_xbar_1.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="hw_handoff/p1300c.hwh"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="p1300c_ooc.xdc"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="hdl/p1300c.vhd"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_auto_pc_1/p1300c_auto_pc_1.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_xlconstant_1_0/p1300c_xlconstant_1_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_v_tpg_0_0/p1300c_v_tpg_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_v_tc_0_0/p1300c_v_tc_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_v_cresample_0_0/p1300c_v_cresample_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_v_cfa_0_0/p1300c_v_cfa_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="p1300c.bd" FileRelPathName="ip/p1300c_processing_system7_0_axi_periph_0/p1300c_processing_system7_0_axi_periph_0.xci"/>
+      </File>
+      <File Path="$PSRCDIR/sources_1/bd/p1300c/hdl/p1300c_wrapper.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <Config>
+        <Option Name="DesignMode" Val="RTL"/>
+        <Option Name="TopModule" Val="p1300c_wrapper"/>
+        <Option Name="TopAutoSet" Val="TRUE"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="constrs_1" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
+      <Filter Type="Constrs"/>
+      <File Path="$PSRCDIR/constrs_1/imports/xdc/embv_python1300.xdc">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../DevelProject/src_/xdc/embv_python1300.xdc"/>
+          <Attr Name="ImportTime" Val="1457476881"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+        </FileInfo>
+      </File>
+      <Config>
+        <Option Name="ConstrsType" Val="XDC"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="sim_1" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/sim_1">
+      <Filter Type="Srcs"/>
+      <Config>
+        <Option Name="DesignMode" Val="RTL"/>
+        <Option Name="TopModule" Val="p1300c_wrapper"/>
+        <Option Name="SrcSet" Val="sources_1"/>
+      </Config>
+    </FileSet>
+  </FileSets>
+  <Simulators>
+    <Simulator Name="XSim">
+      <Option Name="Description" Val="Vivado Simulator"/>
+      <Option Name="CompiledLib" Val="0"/>
+    </Simulator>
+    <Simulator Name="ModelSim">
+      <Option Name="Description" Val="ModelSim Simulator"/>
+    </Simulator>
+    <Simulator Name="Questa">
+      <Option Name="Description" Val="Questa Advanced Simulator"/>
+    </Simulator>
+    <Simulator Name="IES">
+      <Option Name="Description" Val="Incisive Enterprise Simulator (IES)"/>
+    </Simulator>
+    <Simulator Name="VCS">
+      <Option Name="Description" Val="Verilog Compiler Simulator (VCS)"/>
+    </Simulator>
+    <Simulator Name="Riviera">
+      <Option Name="Description" Val="Riviera-PRO Simulator"/>
+    </Simulator>
+    <Simulator Name="ActiveHDL">
+      <Option Name="Description" Val="Active-HDL Simulator"/>
+    </Simulator>
+  </Simulators>
+  <Runs Version="1" Minor="9">
+    <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7z020clg400-1" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" State="current">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2015"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+    </Run>
+    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg400-1" ConstrsSet="constrs_1" Description="Vivado Implementation Defaults" State="current" SynthRun="synth_1">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2015"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+    </Run>
+  </Runs>
+</Project>
