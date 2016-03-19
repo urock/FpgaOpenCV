@@ -10,8 +10,8 @@ This will create sdk project and BOOT image
 
 In Linux Ubuntu exec from Vivado is not working. Better way is to execute 
 
-'xsdk -batch -source ../../software_/p1300c_sdk.tcl -notrace'
-'bootgen -image ../../software_/p1300c_sd.bif -w -o BOOT.bin'
+`xsdk -batch -source ../../software_/p1300c_sdk.tcl -notrace`
+`bootgen -image ../../software_/p1300c_sd.bif -w -o BOOT.bin`
  
  from cmd line
 
