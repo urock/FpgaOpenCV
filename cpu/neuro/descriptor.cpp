@@ -15,26 +15,22 @@ void Descriptor::load( string filename ) {
 		layersz[l] = atoi( parsed[l].c_str() );
 	}
 	
-	flt*** weight = (flt***) malloc( sizeof(flt**) * (layersN - 1) );
+	if( neuro.weight != nullptr )
+		neuro.clear();
+	neuro.init( layersN, layersz );
+	
 	for( int l = 0; l < layersN - 1; ++l ){
-		weight[l] = (flt**) malloc( sizeof(flt*) * layersz[l] );
 		for( int i = 0; i <= layersz[l]; ++i ) {
-			weight[l][i] = (flt*) malloc( sizeof(flt) * layersz[l + 1] );
-			
 			getline( f, line );
 			parsed = parseLine( line );
-			
 			for( int o = 0; o < layersz[l + 1]; ++o )
-				weight[l][i][o] = atof( parsed[o].c_str() );
+				neuro.weight[l][i][o] = atof( parsed[o].c_str() );
 		}
 	}
 	
+	free(layersz);
+	
 	f.close();
-	
-	if( neuro.weight != nullptr )
-		neuro.clear();
-	neuro.init( layersN, layersz, weight );
-	
 	return;
 }
 
