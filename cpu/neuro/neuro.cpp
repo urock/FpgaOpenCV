@@ -32,7 +32,7 @@ void Neuro::init( int sz, int *lsz, flt ***w ) {
 					weight[l][i][o] = w[l][i][o];
 			else
 				for( int o = 0; o < layersz[l + 1]; ++o )
-					weight[l][i][o] = 2.0 * (flt) rand() / (flt) RAND_MAX / (flt) (layersz[l] + 1);
+					weight[l][i][o] = 2.0 * ((flt) rand() / (flt) RAND_MAX ) / (flt) (layersz[l] + 1);
 		}
 	}
 	
@@ -75,6 +75,21 @@ flt Neuro::activation( flt x ) {
 	return x / ( absx + 1.0 / slope );
 }
 
+void Neuro::compLayer( int l ) {
+	// bias
+	for( int o = 0; o < layersz[l + 1]; ++o )
+		linput[l + 1][o] = weight[l][ layersz[l] ][o];
+	
+	// weighted adding
+	for( int o = 0; o < layersz[l + 1]; ++o )
+		for( int i = 0; i < layersz[l]; ++i )
+			linput[l + 1][o] += loutput[l][i] * weight[l][i][o];
+	
+	// compute activation fuction
+	for( int i = 0; i < layersz[l + 1]; ++i )
+		loutput[l + 1][i] = activation( linput[l + 1][i] );
+}
+
 void Neuro::predict( const flt *input, flt *output ) {
 	// copy info to first layer
 	for( int i = 0; i < layersz[0]; ++i )
@@ -83,17 +98,7 @@ void Neuro::predict( const flt *input, flt *output ) {
 	// 		computing part
 	// loop for layers
 	for( int l = 0; l < layersN - 1; ++l ) {
-		// applying weighted adding
-		for( int o = 0; o < layersz[l + 1]; ++o )
-			linput[l + 1][o] = weight[l][ layersz[l] ][o];
-		
-		for( int o = 0; o < layersz[l + 1]; ++o )
-			for( int i = 0; i < layersz[l]; ++i )
-				linput[l + 1][o] += loutput[l][i] * weight[l][i][o];
-		
-		// applying activation fuction
-		for( int i = 0; i < layersz[l + 1]; ++i )
-			loutput[l + 1][i] = activation( linput[l + 1][i] );
+		compLayer(l);
 	}
 	
 	// get info from last layer

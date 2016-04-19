@@ -34,6 +34,7 @@ struct Neuro
 	flt activationDeriv(flt x);
 	
 	// computing part
+	void compLayer( int l );
 	void predict( const flt *input, flt *output );
 	
 };
