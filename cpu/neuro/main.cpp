@@ -8,7 +8,7 @@ using namespace std;
 using namespace cv;
 
 int main() {
-	int lsz[] = {3, 5, 2};
+	int lsz[] = {3, 2048, 2};
 	int lN = sizeof(lsz) / sizeof(int);
 	
 	Neuro neuro( lN, lsz );

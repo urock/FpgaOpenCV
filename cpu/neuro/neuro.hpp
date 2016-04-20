@@ -26,15 +26,14 @@ struct Neuro
 	flt **bias; // [ layer, inputH ]
 	
 	// variables
-	flt **linput; // [layer, inputH]
-	flt **loutput; // [layer, outputH]
+	flt **lreg; // [layer, inputH]
 	
 	// inside functions
 	flt activation(flt x);
 	flt activationDeriv(flt x);
 	
 	// computing part
-	void compLayer( int l );
+	void compLayer( float *data_in, float **weight_in, int N, int K, float *data_out );
 	void predict( const flt *input, flt *output );
 	
 };
