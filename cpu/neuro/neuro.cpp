@@ -71,8 +71,14 @@ flt Neuro::activation( flt x ) {
 }
 
 void Neuro::compLayer( float *data_in, float **weight_in, int N, int K, float *data_out ) {
-	float w[N][K]; // на компьютере, здесь может быть переполнен стэк
-	float linputs[K];
+	flt **w;
+	flt *linputs;
+	
+	w = (flt**) malloc( (N + 1) * sizeof(flt*) );
+	for( int n = 0; n <= N; ++n )
+		w[n] = (flt*) malloc( K * sizeof(flt) );
+	
+	linputs = (flt*) malloc( K * sizeof(flt) );
 	
 	// load weights
 	for (int n = 0; n < N; ++n )
