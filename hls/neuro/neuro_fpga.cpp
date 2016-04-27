@@ -63,7 +63,7 @@ void compLayer(float *data_in, int layer_num, float *weights_in, float *data_out
             float w = w_in[j][k];
 
             if (i == 0)
-               linputs[j][k] = w*data_in_val;
+               linputs[j][k] = w*data_in_val + initial_weight;
             else
                linputs[j][k] += w*data_in_val;
 
