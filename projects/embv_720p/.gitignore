@@ -1,0 +1,4 @@
+*
+!*.tcl
+!*.xdc
+!.gitignore
