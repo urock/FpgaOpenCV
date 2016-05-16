@@ -2,6 +2,12 @@
 
 void Descriptor::load( string filename ) {
 	ifstream f( filename.c_str() );
+	
+	if( ! f.is_open() ) {
+		cout << "could not open input file\n";
+		return;
+	}
+	
 	string line;
 	vector<string> parsed;
 	
@@ -134,6 +140,147 @@ Mat Descriptor::getImage( ) {
 	
 	return mat;
 }
+
+
+vec imgToVec( Mat &img ) {
+	vec v;
+	uchar *data = img.data;
+	for(int i = 0; i < img.rows * img.cols; ++i)
+		v.push_back( (flt) data[i] / 255. );
+	return v;
+}
+
+int getdir (string dir, vector<string> &files)
+{
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp  = opendir(dir.c_str())) == NULL) {
+        cout << "Error(" << errno << ") opening " << dir << endl;
+        return errno;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+        files.push_back(string(dirp->d_name));
+    }
+    closedir(dp);
+    return 0;
+}
+
+vector< vector<vec> > loadClassificationTask( string dir, vector<string> names ) {
+	int species = names.size();
+	vector< vector<vec> > task;
+	for(int j = 0; j < species; ++j) {
+		string folder = dir + names[j] + string("/");
+		vector<string> files;
+		getdir(folder, files);
+		
+		vector<vec> tmp;
+		for(int k = 0; k < files.size(); ++k) {
+			if(files[k] == "." or files[k] == "..")
+				continue;
+			string name = folder + files[k];
+			Mat img = imread( name, CV_LOAD_IMAGE_GRAYSCALE );
+			tmp.push_back( imgToVec(img) );
+		}
+		
+		task.push_back(tmp);
+	}
+	return task;
+}
+
+vector<vec> generateTheory( int size ) {
+	vector<vec> theory;
+	int num = size;
+	for(int i = 0; i < num; ++i) {
+		vec tmp;
+		for(int j = 0; j < size; ++j)
+			tmp.push_back( (j == i % size)? 1. : -1. );
+		theory.push_back( tmp );
+	}
+	return theory;
+}
+
+void Descriptor::pseudoTeachLayer( const vec &inputVal, int outputSz, const vec &deriv,
+		flt **weight, vec &nextDeriv )
+{
+	// prepare some values
+	vec s(outputSz, .0);
+	for( int o = 0; o < outputSz; ++o ) {
+		for( int i = 0; i < inputVal.size(); ++i )
+			s[o] += weight[i][o] * inputVal[i];
+		s[o] = neuro.activationDeriv( s[o] );
+	}
+	// calc derivatives for next layer
+	for( int i = 0; i < inputVal.size(); ++i ) {
+		flt edai = 0;
+		for( int k = 0; k < outputSz; ++k )
+			edai += deriv[k] * weight[i][k] * s[k];
+		nextDeriv.push_back( edai ); // edai * 1.0 is default
+	}
+	return;
+}
+vec errorDeriv( const vec &real, const vec &theory ) {
+	vec ed;
+	for( int i = 0; i < real.size(); ++i ) {
+		flt a = real[i] - theory[i];
+		ed.push_back( a );
+	}
+	return ed;
+}
+Mat Descriptor::getLayerImage(int L, vec what) {
+	vec white;
+	for(int i = 0; i < neuro.layersz[0]; ++i)
+		white.push_back( .5 );
+	
+	vec output( neuro.layersz[ neuro.layersN - 1 ], 0 );
+	neuro.predict( &white[0], &output[0] );
+	
+	vec ed = errorDeriv(output, what);
+	
+	for( int l = neuro.layersN - 1; l > L; --l ) {
+		int ls = neuro.layersz[ l - 1 ];
+		
+		vec nextD;
+		vec inputVal( ls, .0 );
+		for( int i = 0; i < ls; ++i )
+			inputVal[i] = neuro.lreg[l - 1][i];
+		inputVal.push_back(1.0);
+		
+		pseudoTeachLayer( inputVal, neuro.layersz[l], ed, neuro.weight[l - 1], nextD );
+		
+		ed = nextD;
+	}
+	
+	return vecToImg(ed);
+}
+
+
+Mat vecToImg( vec &v ) {
+	int sz = (int)sqrt(v.size());
+	Mat m(sz, sz, CV_8UC3, Scalar(0));
+	
+	flt sum = 0.0;
+	for(int i = 0; i < v.size(); ++i)
+		sum += fabs(v[i]);
+	flt slope = 1. / sum * (flt) v.size();
+	
+	for(int i = 0; i < sz; ++i)
+		for(int j = 0; j < sz; ++j) {
+			int k = i * sz + j;
+			Scalar col = colorTran( -v[k], slope );
+			circle(m, Point(j, i), 1, col);
+		}
+	
+	return m;
+}
+
+
+
+
+
+
+
+
 
 
 

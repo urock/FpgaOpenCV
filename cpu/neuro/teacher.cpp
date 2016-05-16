@@ -1,7 +1,9 @@
 #include"teacher.hpp"
 
+Teacher::Teacher( Neuro &n ) : neuro(n) {}
+
 void Teacher::teachLayer( const vec &inputVal, int outputSz, const vec &deriv,
-		flt **weight, vec &nextDeriv )
+		flt **weight, int l, vec &nextDeriv )
 {
 	// prepare some values
 	vec s(outputSz, .0);
@@ -45,7 +47,7 @@ void Teacher::teach( const vec &input, const vec &theory ) {
 			inputVal[i] = neuro.lreg[l - 1][i];
 		inputVal.push_back(1.0);
 		
-		teachLayer( inputVal, neuro.layersz[l], ed, neuro.weight[l - 1], nextD );
+		teachLayer( inputVal, neuro.layersz[l], ed, neuro.weight[l - 1], l - 1, nextD );
 		
 		ed = nextD;
 	}

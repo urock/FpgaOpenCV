@@ -23,6 +23,7 @@ void Neuro::init( int sz, int *lsz, flt ***w ) {
 		layersz[l] = lsz[l];
 	
 	weight = (flt***) malloc( sizeof(flt**) * (layersN - 1) );
+	
 	for( int l = 0; l < layersN - 1; ++l ){
 		weight[l] = (flt**) malloc( sizeof(flt*) * (layersz[l] + 1) ); // extra +1 for bias
 		for( int i = 0; i <= layersz[l]; ++i ) {
@@ -32,7 +33,8 @@ void Neuro::init( int sz, int *lsz, flt ***w ) {
 					weight[l][i][o] = w[l][i][o];
 			else
 				for( int o = 0; o < layersz[l + 1]; ++o )
-					weight[l][i][o] = 2.0 * ((flt) rand() / (flt) RAND_MAX ) / (flt) (layersz[l] + 1);
+					weight[l][i][o] = ( 2.0 * ( (flt) rand() / (flt) RAND_MAX ) - 1.0)
+							/ sqrt((flt) (layersz[l] + 1));
 		}
 	}
 	
@@ -63,46 +65,39 @@ Neuro::~Neuro() {
 
 
 flt Neuro::activation( flt x ) {
-	return x;
-	
-	flt slope = 1.0;
-	flt absx = (x > .0)? x : -x;
-	return x / ( absx + 1.0 / slope );
+	flt ex = exp(-x);
+	return (1.0 - ex) / (1.0 + ex);
 }
 
+flt Neuro::activationDeriv( flt x ) {
+	flt ex = exp(-x);
+	flt s = 1.0 + ex;
+	return 2.0 * ex / (s*s);
+}
+
+
+// N - input layer size
+// K - output layer size
 void Neuro::compLayer( float *data_in, float **weight_in, int N, int K, float *data_out ) {
-	flt **w;
-	flt *linputs;
-	
-	w = (flt**) malloc( (N + 1) * sizeof(flt*) );
-	for( int n = 0; n <= N; ++n )
-		w[n] = (flt*) malloc( K * sizeof(flt) );
-	
-	linputs = (flt*) malloc( K * sizeof(flt) );
-	
-	// load weights
-	for (int n = 0; n < N; ++n )
-		for (int k = 0; k < K; ++k )
-			w[n][k] = weight_in[n][k];
-	
 	// calc inputs to layer j+1
 	for (int k = 0; k < K; ++k )
-		linputs[k] = weight_in[N][k]; // возможно, w[N][k] ?
+		data_out[k] = weight_in[N][k];
 	
 	// weighted adding
 	for (int n = 0; n < N; ++n )
 		for (int k = 0; k < K; ++k )
-			linputs[k] += data_in[n] * w[n][k];
+			data_out[k] += data_in[n] * weight_in[n][k];
 	
 	// calc outputs
 	for (int k = 0; k < K; ++k )
-		data_out[k] = activation (linputs[k]);
+		data_out[k] = activation (data_out[k]);
 }
 
 void Neuro::predict( const flt *input, flt *output ) {
 	// copy info to first layer
-	for( int i = 0; i < layersz[0]; ++i )
+	for( int i = 0; i < layersz[0]; ++i ) {
 		lreg[0][i] = input[i];
+	}
 	
 	// 		computing part
 	// loop for layers

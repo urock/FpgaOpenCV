@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<stdlib.h>
+#include<cmath>
 
 typedef float flt;
 
@@ -21,16 +22,15 @@ struct Neuro
 	int *layersz;
 	int layersN;
 	
-	// teaching
+	// main memory
 	flt ***weight; // [ layer, inputH, outputH ]
-	flt **bias; // [ layer, inputH ]
 	
-	// variables
+	// working variables
 	flt **lreg; // [layer, inputH]
 	
 	// inside functions
 	flt activation(flt x);
-	flt activationDeriv(flt x);
+	flt activationDeriv(flt x); // производная нужна только при обучении
 	
 	// computing part
 	void compLayer( float *data_in, float **weight_in, int N, int K, float *data_out );
