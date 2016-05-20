@@ -18,12 +18,14 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include <opencv2/core/core.hpp>
 #include<opencv2/imgcodecs.hpp>
+#include "opencv2/videoio.hpp"
 
 using namespace std;
 using namespace cv;
 
 struct Descriptor
 {
+	//Descriptor() {};
 	Descriptor( Neuro &n ) : neuro(n) {};
 	~Descriptor() {};
 	
@@ -34,6 +36,11 @@ struct Descriptor
 	
 	Mat getImage();
 	Mat getLayerImage(int L, vec what);
+	
+	Mat preprocessImage(Mat image, float alpha = 4);
+	Mat processImage(Mat img, int width, vector<vec> theory, vector<string> names,
+				int step = 1, flt tolerance = .5);
+	void processVideo(string inputName, string outputName, vector<vec> theory, vector<string> names);
 	
 	void pseudoTeachLayer( const vec &inputVal, int outputSz, const vec &deriv, flt **weight, vec &nextDeriv );
 };

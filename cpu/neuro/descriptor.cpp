@@ -141,6 +141,91 @@ Mat Descriptor::getImage( ) {
 	return mat;
 }
 
+Mat Descriptor::preprocessImage(Mat image, float alpha) {
+	Mat new_image = Mat::zeros( image.size(), image.type() );
+	
+	int beta = 128 * (1.0 - alpha) ; //brightness control
+	
+	/// Do the operation new_image(i,j) = alpha*image(i,j) + beta
+	for( int y = 0; y < image.rows; y++ ) {
+		for( int x = 0; x < image.cols; x++ ) {
+			new_image.at<uchar>(y,x) = saturate_cast<uchar>( alpha*( image.at<uchar>(y,x) ) + beta );
+		}
+	}
+	
+	return new_image;
+}
+
+Mat Descriptor::processImage(Mat img, int width, vector<vec> theory, vector<string> names,
+			int step, flt tolerance)
+{
+	Mat result = img.clone();
+	int x1, y1;
+	for(x1 = 0; x1 + width < img.cols; x1 += step) {
+		for(y1 = 0; y1 + width < img.rows; y1 += step) {
+			vec real = theory[0];
+			Rect rect(x1, y1, width, width);
+			Mat part = img(rect).clone();
+			vec imgV = imgToVec(part);
+			neuro.predict( &imgV[0], &real[0] );
+			
+			for(int i = 0; i < theory.size(); ++i) {
+				flt error = tolerance;
+				for(int j = 0; j < real.size(); ++j) {
+					if(theory[i][j] > 0)
+						error = fabs(real[j] - theory[i][j]);
+				}
+		
+				if(error < tolerance) {
+					rectangle( result, rect, Scalar::all(127), 2 );
+					putText( result, names[i], Point(x1, y1), FONT_HERSHEY_SIMPLEX, .5, Scalar::all(127) );
+				}
+			}
+		}
+	}
+	return result;
+}
+
+void Descriptor::processVideo(string inputName, string outputName, vector<vec> theory, vector<string> names) {
+	VideoCapture cap(inputName);
+	if( !cap.isOpened() ) {
+		cout << "Couldn't open the input video\n";
+		return;
+	}
+	
+	Size S = Size((int) cap.get(CV_CAP_PROP_FRAME_WIDTH),    // Acquire input size
+                  (int) cap.get(CV_CAP_PROP_FRAME_HEIGHT));
+	VideoWriter wr;
+	wr.open(outputName, cap.get(CV_CAP_PROP_FOURCC), cap.get(CV_CAP_PROP_FPS), S, true);
+	if (!wr.isOpened()) {
+		cout  << "Could not open the output video for write" << endl;
+		return;
+	}
+	
+	Mat img;
+	int i = 0;
+	while ( cap.read(img) ) {
+		if (img.empty())
+			continue;
+		
+		cout << i << '\t';
+		if(i % 12 == 0)
+			cout << endl;
+		++i;
+		
+		int width = 250;
+		resize(img, img, Size( width, (int)((float)img.rows / (float)img.cols * (float) width) ) );
+		cvtColor(img, img, CV_BGR2GRAY);
+		
+		img = preprocessImage(img, 5);
+		img = processImage(img, 32, theory, names, 4, 0.7);
+		
+		resize(img, img, S);
+	 	cvtColor(img, img, CV_GRAY2BGR);
+		
+		wr.write(img);
+ 	}
+}
 
 vec imgToVec( Mat &img ) {
 	vec v;
@@ -267,7 +352,7 @@ Mat vecToImg( vec &v ) {
 	for(int i = 0; i < sz; ++i)
 		for(int j = 0; j < sz; ++j) {
 			int k = i * sz + j;
-			Scalar col = colorTran( -v[k], slope );
+			Scalar col = colorTran( v[k], slope );
 			circle(m, Point(j, i), 1, col);
 		}
 	

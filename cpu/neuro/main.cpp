@@ -18,10 +18,10 @@ int main() {
 	
 	Descriptor des( neuro );
 	des.load( "data/after" );
-	imwrite( "data/tst0.png", des.getImage() );
-//	des.save( "data/before" );
-//	cout << "data saved\n";
 	
+	imwrite( "data/tst0.png", des.getImage() );
+	des.save( "data/before" );
+	cout << "data saved\n";
 	
 	Teacher teacher(neuro);
 	
@@ -37,11 +37,11 @@ int main() {
 	inputV = loadClassificationTask( "data/animals/", names );
 	theory = generateTheory( names.size() );
 	
-	int N = 500000;
+	int N = 1000000; //100k - 3min //10kk - 323min
 	for( int i = 0; i < N; ++i ) {
 		int n = rand() % inputV.size();
-		if(n != 4)
-			n = rand() % inputV.size();
+		if(rand() % 2 == 0)
+			n = 4;
 		int k = rand() % inputV[n].size();
 		teacher.teach(inputV[n][k], theory[n]);
 	}
@@ -67,6 +67,12 @@ int main() {
 		imwrite( (string("data/") + names[i] + string(".png")).c_str(), img );
 	}
 	cout << "pic writed\n";
+	
+	Mat example = imread( "data/webcam-test.jpg", CV_LOAD_IMAGE_GRAYSCALE );
+	example = des.preprocessImage(example);
+	imwrite( "data/exampleout.png", des.processImage(example, 32, theory, names, 8, 0.7) );
+	
+	des.processVideo("data/example.avi", "data/exampleout.avi", theory, names);
 	
 	return 0;
 }
