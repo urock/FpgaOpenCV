@@ -39,7 +39,7 @@ struct Descriptor
 	Mat getLayerImage(int L, vec what, vec white = vec(0));
 	
 	Mat preprocessImage(Mat image, float alpha = 4);
-	Mat processImage(Mat img, int width, vector<vec> theory, vector<string> names,
+	void processImage(Mat img, Mat &result, int width, vector<vec> theory, vector<string> names,
 				int mult = 1, int step = 10, flt tolerance = .01);
 	void processVideo(string inputName, string outputName, vector<vec> theory, vector<string> names);
 	

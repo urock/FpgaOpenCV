@@ -159,10 +159,10 @@ Mat Descriptor::preprocessImage(Mat image, float alpha) {
 	return new_image;
 }
 
-Mat Descriptor::processImage(Mat img, int width, vector<vec> theory, vector<string> names,
+void Descriptor::processImage(Mat img, Mat &res, int width, vector<vec> theory, vector<string> names,
 			int mult, int step, flt tolerance)
 {
-	Mat result = img.clone();
+	Mat result = res.clone();
 	int x1, y1;
 	
 	width *= mult;
@@ -190,7 +190,8 @@ Mat Descriptor::processImage(Mat img, int width, vector<vec> theory, vector<stri
 			}
 		}
 	}
-	return result;
+	res = result;
+	return;
 }
 
 void Descriptor::processVideo(string inputName, string outputName, vector<vec> theory, vector<string> names) {
@@ -224,7 +225,7 @@ void Descriptor::processVideo(string inputName, string outputName, vector<vec> t
 		cvtColor(img, img, CV_BGR2GRAY);
 		
 		img = preprocessImage(img, 5);
-		img = processImage(img, 32, theory, names, 1, 6, 0.05);
+		processImage(img, img, 32, theory, names, 1, 6, 0.05);
 		
 		resize(img, img, S);
 	 	cvtColor(img, img, CV_GRAY2BGR);
