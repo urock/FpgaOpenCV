@@ -1,0 +1,7 @@
+*
+!src/
+!src/*
+!create_project.tcl
+!create_project.bat
+!.gitignore
+

@@ -1,0 +1,9 @@
+*
+!*.tcl
+!*.xdc
+!.gitignore
+!/app/
+/app/*
+!/app/src/
+# /app/src/*
+# !./app/src/*
