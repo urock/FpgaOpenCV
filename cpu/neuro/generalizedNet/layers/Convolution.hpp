@@ -9,9 +9,13 @@
 
 class Convolution : public Layer
 {
+public:
 	Convolution(){}
-	Convolution(int sK, int sS, Data dendrite, Data axon, string sName);
+	Convolution(int sK, int sS, string sName);
+	void setData(Data dendrite, Data axon);
 	bool check();
+	
+	Convolution operator=(Convolution);
 	
 	void compute();
 	void proceedError();

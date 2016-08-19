@@ -8,6 +8,10 @@ MaxPooling::MaxPooling(int sK, string sName) : Subsampling(sK, sName), choice(de
 	choice.initMem();
 }
 
+MaxPooling MaxPooling::operator=(MaxPooling) {
+	// TODO: fill
+}
+
 void MaxPooling::compute() {
 	for(int i = 0; i < axon.N; ++i)
 		for(int j = 0; j < axon.M; ++j)
@@ -18,18 +22,18 @@ void MaxPooling::compute() {
 				int kk = k * K;
 				for(int a = 0; a < K; ++a)
 					for(int b = 0; b < K; ++b) {
-						flt value = dendrite.pixel[i][jj + a][kk + b];
+						flt value = dendrite.at(i, jj + a, kk + b);
 						if (value > max) {
 							max = value;
 							number = a * K + b;
 						}
 					}
-				axon.pixel[i][j][k] = max;
-				choice.pixel[i][j][k] = number;
+				axon.at(i, j, k) = max;
+				choice.at(i, j, k) = number;
 			}
 }
 
-void MaxPooling::proceedError(){
+void MaxPooling::proceedError() {
 	for(int i = 0; i < axon.N; ++i)
 		for(int j = 0; j < axon.M; ++j)
 			for(int k = 0; k < axon.M; ++k) {
@@ -38,6 +42,6 @@ void MaxPooling::proceedError(){
 				int number = (int) choice.pixel[i][j][k];
 				int a = number / K;
 				int b = number % K;
-				errDend.pixel[i][jj + a][kk + b] += errAxon.pixel[i][j][k];
+				errDend.at(i, jj + a, kk + b) += errAxon.at(i, j, k);
 			}
 }

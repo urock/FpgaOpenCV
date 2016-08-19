@@ -5,9 +5,15 @@
 #include <cmath>
 #include "Convolution.hpp"
 
-Convolution::Convolution(int sK, int sS, Data dendrite, Data axon, string sName) :
-		K(sK), S(sS), Layer(sName), preaxon(axon), bias(axon), biasGrad(axon)
-{
+Convolution::Convolution(int sK, int sS, string sName) : K(sK), S(sS), Layer(sName) {}
+
+void Convolution::setData(Data sDendrite, Data sAxon) {
+	dendrite = sDendrite;
+	axon = sAxon;
+	preaxon = axon;
+	bias = axon;
+	biasGrad = axon;
+	
 	N = axon.N;
 	M = dendrite.N;
 	
@@ -45,6 +51,10 @@ bool Convolution::check() {
 	if(is != (os - (K - S)) / S || (os - (K - S)) % S != 0)
 		throw "sizes of maps do not match";
 	return true;
+}
+
+Convolution Convolution::operator=(Convolution convolution) {
+	// TODO: fill
 }
 
 vector<flt*> Convolution::stretchArray(flt ****a) {

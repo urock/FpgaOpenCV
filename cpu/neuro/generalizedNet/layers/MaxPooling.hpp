@@ -10,9 +10,12 @@
 
 class MaxPooling : public Subsampling
 {
+public:
 	MaxPooling(int sK, string sName);
 	void compute();
 	void proceedError();
+	
+	MaxPooling operator=(MaxPooling);
 	
 	Data choice;
 };

@@ -10,7 +10,7 @@ bool Subsampling::check() {
 	return dendrite.M % K == 0 && dendrite.M / K == axon.M && dendrite.N == axon.N;
 }
 
-// no weights, no grads in subsampling layer
+// no weights and no grads in subsampling layer
 vector<flt*> Subsampling::getWeights() {
 	vector<flt*> v;
 	return v;
