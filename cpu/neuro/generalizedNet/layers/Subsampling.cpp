@@ -6,6 +6,12 @@
 
 Subsampling::Subsampling(int sK, string sName)  : Layer(sName), K(sK) {}
 
+Subsampling Subsampling::operator=(Subsampling subsampling) {
+	Layer::operator=(subsampling);
+	K = subsampling.K;
+	return *this;
+}
+
 bool Subsampling::check() {
 	return dendrite.M % K == 0 && dendrite.M / K == axon.M && dendrite.N == axon.N;
 }

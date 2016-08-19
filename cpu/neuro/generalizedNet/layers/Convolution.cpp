@@ -7,6 +7,24 @@
 
 Convolution::Convolution(int sK, int sS, string sName) : K(sK), S(sS), Layer(sName) {}
 
+Convolution Convolution::operator=(Convolution convolution) {
+	Layer::operator=(convolution);
+	K = convolution.K;
+	N = convolution.N;
+	weight = convolution.weight;
+	grad = convolution.grad;
+	bias = convolution.bias;
+	biasGrad = convolution.biasGrad;
+	preaxon = convolution.preaxon;
+	K = convolution.K;
+	S = convolution.S;
+	N = convolution.N;
+	M = convolution.M;
+	os = convolution.os;
+	is = convolution.is;
+	return *this;
+}
+
 void Convolution::setData(Data sDendrite, Data sAxon) {
 	dendrite = sDendrite;
 	axon = sAxon;
@@ -51,10 +69,6 @@ bool Convolution::check() {
 	if(is != (os - (K - S)) / S || (os - (K - S)) % S != 0)
 		throw "sizes of maps do not match";
 	return true;
-}
-
-Convolution Convolution::operator=(Convolution convolution) {
-	// TODO: fill
 }
 
 vector<flt*> Convolution::stretchArray(flt ****a) {

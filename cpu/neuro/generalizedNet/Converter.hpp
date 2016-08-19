@@ -6,11 +6,16 @@
 #define GENERALIZEDNET_CONVERTER_HPP
 
 
+#include <vector>
+#include "Data.hpp"
 
-class Converter {
-
+class Converter
+{
+	Converter() {};
+	~Converter() {};
+	
+	void loadTask(string dir, vector<string> names, vector<Data> &in, vector<Data> &out);
 };
-
 
 
 #endif //GENERALIZEDNET_CONVERTER_HPP

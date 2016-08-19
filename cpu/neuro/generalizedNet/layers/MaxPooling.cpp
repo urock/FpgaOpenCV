@@ -8,8 +8,10 @@ MaxPooling::MaxPooling(int sK, string sName) : Subsampling(sK, sName), choice(de
 	choice.initMem();
 }
 
-MaxPooling MaxPooling::operator=(MaxPooling) {
-	// TODO: fill
+MaxPooling MaxPooling::operator=(MaxPooling maxPooling) {
+	Subsampling::operator=(maxPooling);
+	choice = maxPooling.choice;
+	return *this;
 }
 
 void MaxPooling::compute() {
@@ -39,7 +41,7 @@ void MaxPooling::proceedError() {
 			for(int k = 0; k < axon.M; ++k) {
 				int jj = j * K;
 				int kk = k * K;
-				int number = (int) choice.pixel[i][j][k];
+				int number = (int) choice.at(i, j, k);
 				int a = number / K;
 				int b = number % K;
 				errDend.at(i, jj + a, kk + b) += errAxon.at(i, j, k);

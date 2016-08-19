@@ -6,7 +6,7 @@
 #define GENERALIZEDNET_SUBSAMPLING_HPP
 
 
-#include "Layer.hpp"
+#include "../Layer.hpp"
 
 class Subsampling : public Layer
 {
@@ -14,6 +14,8 @@ public:
 	Subsampling(){}
 	Subsampling(int sK, string sName);
 	bool check();
+	
+	virtual Subsampling operator=(Subsampling subsampling);
 	
 	vector<flt*> getWeights();
 	vector<flt*> getGrads();

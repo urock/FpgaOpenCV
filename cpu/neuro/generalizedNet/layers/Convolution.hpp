@@ -5,13 +5,14 @@
 #ifndef GENERALIZEDNET_CONVOLUTION_HPP
 #define GENERALIZEDNET_CONVOLUTION_HPP
 
-#include "Layer.hpp"
+#include "../Layer.hpp"
 
 class Convolution : public Layer
 {
 public:
-	Convolution(){}
+	Convolution() {}
 	Convolution(int sK, int sS, string sName);
+	~Convolution() {}
 	void setData(Data dendrite, Data axon);
 	bool check();
 	

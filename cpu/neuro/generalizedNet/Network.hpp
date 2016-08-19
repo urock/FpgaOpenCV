@@ -12,15 +12,27 @@
 class Network : public Layer
 {
 public:
-	Network() {}
+	Network() : dN(0), lN(0) {}
 	Network(int sDN, int sLN);
+	~Network();
 	
-	int nameToId(string name);
-	void connect(string name1, string name2);
+	Network operator=(Network);
+	
+	void initData();
+	
+	int nameToDataId(string name);
+	int nameToLayerId(string name);
+	void connectAxon(string dName, string lName); // data to layer
+	void connectDendrite(string dName, string lName);
 	
 	bool check();
 	void compute();
 	void proceedError();
+	
+	vector<flt*> getWeights();
+	vector<flt*> getGrads();
+	
+	virtual Layer operator=(Layer layer) override;
 	
 	int dN, lN; // number of datas and layers
 	

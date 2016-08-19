@@ -17,6 +17,10 @@ public:
 	Layer(string sName) : name(sName) {}
 	~Layer(){}
 	
+	virtual Layer operator=(Layer);
+	
+	virtual void initData();
+	
 	virtual bool check();
 	virtual void compute();
 	virtual void proceedError();

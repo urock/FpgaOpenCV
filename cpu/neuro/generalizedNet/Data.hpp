@@ -15,16 +15,15 @@ typedef float flt;
 class Data
 {
 public:
-	Data() {}
+	Data() {};
 	Data(int sM, int sN, string sName = "");
-	Data(Data data);
+	Data(const Data &data);
 	~Data();
 	
 	void initMem();
 	void resetMem();
 	void clearMem();
 	
-	// gets data by pointer; keeps name
 	Data operator=(Data source);
 	Data range(int i1, int i2);
 	Data operator+(Data data);

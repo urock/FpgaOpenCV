@@ -5,12 +5,12 @@
 #include <cstring>
 #include "Data.hpp"
 
-Data::Data(int sM, int sN, string sName = "") : M(sM) , N(sN), name(sName), sourcesNum(0) {}
+Data::Data(int sM, int sN, string sName) : M(sM) , N(sN), name(sName), sourcesNum(0) {}
 
-Data::Data(Data data) : Data(data.M, data.N, data.name + string(" copy")) {}
+Data::Data(const Data &data) : Data(data.M, data.N, data.name) {}
 
 Data::~Data(){
-	clearMem();
+//	clearMem();
 }
 
 void Data::initMem(){
@@ -20,7 +20,7 @@ void Data::initMem(){
 	sourcesNum = 1;
 	pixel = (flt****) malloc( sizeof(flt**) * sourcesNum );
 	for (int k = 0; k < sourcesNum; ++k) {
-		pixel[k] = (flt***) malloc( sizeof(flt**) * sourceSz[k])
+		pixel[k] = (flt***) malloc( sizeof(flt**) * sourceSz[k]);
 		for(int i = 0; i < N; ++i){
 			pixel[k][i] = (flt**) malloc( sizeof(flt*) * M);
 			for(int j = 0; j < M; ++j){
@@ -69,6 +69,7 @@ Data Data::operator=(Data source){
 	sourcesNum = source.sourcesNum;
 	sourceSz = source.sourceSz;
 	pixel = source.pixel;
+	name = source.name;
 	return *this;
 }
 
