@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CPP_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/Converter.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Converter.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Network.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/GradDescent.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Data.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Teacher.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/GradDescent.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Data.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Teacher.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Layer.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Parser.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Parser.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Layer.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Network.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/layers/MaxPooling.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/layers/Subsampling.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/layers/Convolution.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/layers/MaxPooling.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/layers/Convolution.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/layers/Subsampling.cpp" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="Header Search Paths">
+        <CLASSES>
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/local/include" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/local/include" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>

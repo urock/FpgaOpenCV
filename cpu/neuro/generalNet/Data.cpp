@@ -18,13 +18,13 @@ void Data::initMem(){
 		throw "memory is already inited";
 	
 	sourcesNum = 1;
-	pixel = (flt****) malloc( sizeof(flt**) * sourcesNum );
+	pixel = (flt****) malloc(sizeof(flt***) * sourcesNum);
 	for (int k = 0; k < sourcesNum; ++k) {
-		pixel[k] = (flt***) malloc( sizeof(flt**) * sourceSz[k]);
-		for(int i = 0; i < N; ++i){
-			pixel[k][i] = (flt**) malloc( sizeof(flt*) * M);
+		pixel[k] = (flt***) malloc(sizeof(flt**) * sourceSz[k]);
+		for(int i = 0; i < sourceSz[k]; ++i){
+			pixel[k][i] = (flt**) malloc(sizeof(flt*) * M);
 			for(int j = 0; j < M; ++j){
-				pixel[k][i][j] = (flt*) malloc( sizeof(flt) * M );
+				pixel[k][i][j] = (flt*) malloc(sizeof(flt) * M);
 			}
 		}
 	}
@@ -35,7 +35,7 @@ void Data::resetMem(){
 		throw "memory is not inited. cannot reset";
 	
 	for (int k = 0; k < sourcesNum; ++k)
-		for(int i = 0; i < N; ++i)
+		for(int i = 0; i < sourceSz[k]; ++i)
 			for(int j = 0; j < M; ++j)
 				memset(pixel[k][i][j], 0, M * sizeof(flt));
 }
@@ -45,13 +45,13 @@ void Data::clearMem(){
 		throw "memory is not inited. cannot clear";
 	
 	for (int k = 0; k < sourcesNum; ++k) {
-		for(int i = 0; i < N; ++i)
+		for(int i = 0; i < sourceSz[k]; ++i)
 			for(int j = 0; j < M; ++j){
 				free(pixel[k][i][j]);
 			}
 	}
 	for (int l = 0; l < sourcesNum; ++l) {
-		for(int i = 0; i < N; ++i)
+		for(int i = 0; i < sourceSz[l]; ++i)
 			free(pixel[l][i]);
 	}
 	for(int i = 0; i < sourcesNum; ++i)
@@ -89,11 +89,11 @@ Data Data::range(int i1, int i2) {
 	Data *datas = (Data*) malloc(sourcesNum * sizeof(Data));
 	for (int i = 0; i < sourcesNum; ++i) {
 		datas[i].sourcesNum = 1;
-		datas[i].sourceSz = (int *) malloc(sizeof(int));
+		datas[i].sourceSz = (int*) malloc(sizeof(int));
 		datas[i].N = sourceSz[i];
 		datas[i].sourceSz[0] = sourceSz[i];
 		datas[i].M = M;
-		datas[i].pixel = (flt****) malloc( sizeof(flt**) );
+		datas[i].pixel = (flt****) malloc(sizeof(flt***));
 		datas[i].pixel[0] = pixel[i];
 	}
 	
@@ -116,7 +116,7 @@ Data Data::range(int i1, int i2) {
 	}
 	
 	Data tmp = datas[startI];
-	for (int i = 1; i < endI - startI; ++i) {
+	for (int i = startI + 1; i <= endI; ++i) {
 		tmp = tmp + datas[i];
 	}
 	return tmp;
@@ -131,7 +131,7 @@ Data Data::operator+(Data data) {
 	tmp.sourcesNum = sourcesNum + data.sourcesNum;
 	tmp.sourceSz = (int*) malloc(sizeof(int) * tmp.sourcesNum);
 	
-	tmp.pixel = (flt****) malloc( sizeof(flt**) * tmp.sourcesNum );
+	tmp.pixel = (flt****) malloc(sizeof(flt***) * tmp.sourcesNum);
 	
 	for(int i = 0; i < sourcesNum; ++i){
 		tmp.sourceSz[i] = sourceSz[i];
