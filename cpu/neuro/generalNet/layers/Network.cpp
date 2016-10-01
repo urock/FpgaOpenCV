@@ -2,22 +2,19 @@
 // Created by hokop on 7/30/16.
 //
 
+#include <iostream>
 #include "Network.hpp"
 
 Network::Network(int sDN, int sLN) : dN(sDN), lN(sLN) {
-	data = (Data*) malloc(dN * sizeof(Data));
-	layer = (Layer*) malloc(lN * sizeof(Layer));
+	data = new Data[dN];
+	deriv = new Data[dN];
+	layer = new Layer[lN];
 	seq = (int*) malloc(lN * sizeof(int));
 }
 
 Network::~Network() {}
 
-void Network::initData() {
-	for(int i = 0; i < lN; ++i)
-		layer[i].initData();
-}
-
-Network Network::operator=(Network network) {
+Network &Network::operator=(Network const &network) {
 	Layer::operator=(network);
 	dN = network.dN;
 	lN = network.lN;
@@ -28,32 +25,24 @@ Network Network::operator=(Network network) {
 	return *this;
 }
 
-int Network::nameToDataId(string name) {
+Data &Network::nameToData(string name) {
 	for(int i = 0; i < dN; ++i)
 		if(data[i].name == name)
-			return i;
-	return -1;
+			return data[i];
+	if(axon.name == name)
+		return axon;
+	if(dendrite.name == name)
+		return dendrite;
+	cout << "data " << name << "not found\n";
+	return axon;
 }
 
 int Network::nameToLayerId(string name) {
 	for(int i = 0; i < lN; ++i)
 		if(layer[i].name == name)
 			return i;
+	cout << name << " layer id -1\n";
 	return -1;
-}
-
-void Network::connectAxon(string dName, string lName) {
-	int di = nameToDataId(dName);
-	int li = nameToLayerId(lName);
-	layer[li].axon = data[di];
-	layer[li].errAxon = deriv[di];
-}
-
-void Network::connectDendrite(string dName, string lName) {
-	int di = nameToDataId(dName);
-	int li = nameToLayerId(lName);
-	layer[li].dendrite = data[di];
-	layer[li].errDend = deriv[di];
 }
 
 bool Network::check() {

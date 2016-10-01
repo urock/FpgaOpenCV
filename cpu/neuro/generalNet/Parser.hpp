@@ -9,7 +9,7 @@
 #include<vector>
 #include "Data.hpp"
 #include "Layer.hpp"
-#include "Network.hpp"
+#include "layers/Network.hpp"
 #include "layers/Convolution.hpp"
 #include "layers/Subsampling.hpp"
 #include "layers/MaxPooling.hpp"
@@ -34,6 +34,7 @@ struct Line
 struct Block
 {
 	Block() {}
+	Block(Block const &block);
 	Block(string filename);
 	void init(string filename);
 	string what;
@@ -52,14 +53,14 @@ class Parser
 public:
 	Parser() {}
 	
-	Network blockToNetwork(Block block);
+	Network blockToNetwork(Block &block);
 	
-	Convolution blockToConv(Block block);
+	Convolution blockToConv(Block &block, Network &network);
+	MaxPooling blockToMaxPooling(Block &block, Network &network);
 	
-	MaxPooling blockToMaxPooling(Block block);
-	Data blockToData(Block block);
+	Data blockToData(Block &block);
 	
-	vector<Block> explodeBlock(Block);
+	vector<Block> explodeBlock(Block &);
 };
 
 #endif //GENERALIZEDNET_PARSER_H

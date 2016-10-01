@@ -15,7 +15,7 @@ typedef float flt;
 class Data
 {
 public:
-	Data() {};
+	Data() : ownMem(false), inited(false), name("") {};
 	Data(int sM, int sN, string sName = "");
 	Data(const Data &data);
 	~Data();
@@ -30,12 +30,14 @@ public:
 	
 	flt &at(int map, int x, int y);
 	
-	string name;
+	string name = "";
 	int M; // size of map
 	int N; // number of maps
 	
 	int sourcesNum;
 	int *sourceSz;
+	bool ownMem;
+	bool inited;
 	
 	flt ****pixel; // [source] [map] [x] [y]
 };

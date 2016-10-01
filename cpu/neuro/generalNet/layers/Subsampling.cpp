@@ -4,9 +4,13 @@
 
 #include "Subsampling.hpp"
 
-Subsampling::Subsampling(int sK, string sName)  : Layer(sName), K(sK) {}
+Subsampling::Subsampling(int sK, string sName) : Layer(sName), K(sK) {}
 
-Subsampling Subsampling::operator=(Subsampling subsampling) {
+//Subsampling::Subsampling(const Subsampling &s) :  Subsampling(s.K, s.name) {
+//	//todo: normal constructor
+//}
+
+Subsampling &Subsampling::operator=(Subsampling const &subsampling) {
 	Layer::operator=(subsampling);
 	K = subsampling.K;
 	return *this;
@@ -14,6 +18,14 @@ Subsampling Subsampling::operator=(Subsampling subsampling) {
 
 bool Subsampling::check() {
 	return dendrite.M % K == 0 && dendrite.M / K == axon.M && dendrite.N == axon.N;
+}
+
+void Subsampling::compute() {
+	
+}
+
+void Subsampling::proceedError() {
+	
 }
 
 // no weights and no grads in subsampling layer

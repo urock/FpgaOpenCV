@@ -39,18 +39,17 @@ Data matToData(Mat img) {
 	//todo: check adequacy
 }
 
-Data indexToData(int index, unsigned long size) {
+Data indexToData(int index, int size) {
 	Data data(1, size);
 	data.initMem();
 	for(int i = 0; i < size; ++i)
-		data.at(i, 0, 0) = (i == index)? 1 : 0;
+		data.at(i, 0, 0) = (i == index)? 1.0f : 0.0f;
+	return data;
 	//todo: check adequacy
 }
 
 void Converter::loadTask(string dir, vector<string> names, vector<Data> &in, vector<Data> &out) {
-	unsigned long species = names.size();
-	in =  vector<Data>();
-	out = vector<Data>();
+	int species = (int) names.size();
 	for(int i = 0; i < species; ++i) {
 		string folder = dir + names[i] + string("/");
 		vector<string> files;

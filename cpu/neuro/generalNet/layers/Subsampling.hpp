@@ -13,12 +13,16 @@ class Subsampling : public Layer
 public:
 	Subsampling(){}
 	Subsampling(int sK, string sName);
-	bool check();
+	//Subsampling(const Subsampling &s);
+	virtual bool check();
 	
-	virtual Subsampling operator=(Subsampling subsampling);
+	virtual Subsampling &operator=(Subsampling const &subsampling);
 	
-	vector<flt*> getWeights();
-	vector<flt*> getGrads();
+	virtual void compute();
+	virtual void proceedError();
+	
+	virtual vector<flt*> getWeights();
+	virtual vector<flt*> getGrads();
 	
 	int K; //kernel size
 };

@@ -6,24 +6,19 @@
 #define GENERALIZEDNET_TEACHER_HPP
 
 
-#include "Network.hpp"
+#include "layers/Network.hpp"
 #include "Parser.hpp"
 
 class Teacher
 {
+public:
 	Teacher() {}
 	~Teacher() {}
 	
 	void readWeights(string filename, Network network);
-	void teach(Network &network, vector<Data> in, vector<Data> out, int iterations, string fileForErrors = "");
+	void teach(Network &network, vector<Data> &in, vector<Data> &out, int iterations, string fileForErrors = "");
 	
 	void writeWeights(Network network, string filename);
-	// todo: функция которая обучает
-	// берет массив дата и обучает
-	// и делает градспуск
-	// создает градспуск и делает итерации
-	// и кросс-верификацию
-	// пишет ошибки в файл
 };
 
 

@@ -7,7 +7,7 @@
 
 Convolution::Convolution(int sK, int sS, string sName) : K(sK), S(sS), Layer(sName) {}
 
-Convolution Convolution::operator=(Convolution convolution) {
+Convolution &Convolution::operator=(Convolution const &convolution) {
 	Layer::operator=(convolution);
 	K = convolution.K;
 	N = convolution.N;
@@ -26,8 +26,7 @@ Convolution Convolution::operator=(Convolution convolution) {
 }
 
 void Convolution::setData(Data sDendrite, Data sAxon) {
-	dendrite = sDendrite;
-	axon = sAxon;
+	Layer::setData(sDendrite, sAxon);
 	preaxon = axon;
 	bias = axon;
 	biasGrad = axon;

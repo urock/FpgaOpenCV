@@ -3,33 +3,59 @@
 //
 
 #include <fstream>
+#include <iostream>
 #include "Parser.hpp"
 
-Network Parser::blockToNetwork(Block block) {
+Network Parser::blockToNetwork(Block &block) {
 	vector<Block> blocks = explodeBlock(block);
 	
 	vector<Data> data;
+	Data axon, dendrite;
 	vector<Layer> layers;
-	// скопировать все слои и данные из файла
+	// скопировать все данные из файла
 	for(int i = 0; i < blocks.size(); ++i) {
-		if(blocks[i].what == "data")
+		if (blocks[i].what == "data")
 			data.push_back(blockToData(blocks[i]));
+		if(blocks[i].what == "axon")
+			axon = blockToData(blocks[i]);
+		if(blocks[i].what == "dendrite")
+			dendrite = blockToData(blocks[i]);
+	}
+	
+	//count layers
+	int layersN = 0;
+	for(int i = 0; i < blocks.size(); ++i) {
 		if(blocks[i].what == "convolution")
-			layers.push_back(blockToConv(blocks[i]));
+			++layersN;
 		if(blocks[i].what == "max_pooling")
-			layers.push_back(blockToMaxPooling(blocks[i]));
+			++layersN;
 	}
 	
-	Network network(data.size(), layers.size());
-	
-	// соединить все данные  со слоями
-	for(int i = 0; i < data.size(); ++i)
+	Network network(data.size(), layersN);
+	network.setData(dendrite, axon);
+	for(int i = 0; i < data.size(); ++i) {
 		network.data[i] = data[i];
-	for(int i = 0; i < layers.size(); ++i) {
-		network.layer[i] = layers[i];
-		network.connectAxon(layers[i].name, layers[i].axon.name);
-		network.connectDendrite(layers[i].name, layers[i].dendrite.name);
+		network.deriv[i] = data[i];
+		network.deriv[i].initMem();
 	}
+	
+	// скопировать все слои из файла
+	for(int i = 0; i < blocks.size(); ++i) {
+		if(blocks[i].what == "convolution") {
+			layers.push_back(blockToConv(blocks[i], network));
+			network.layer[layers.size() - 1] = blockToConv(blocks[i], network);
+		}
+		if(blocks[i].what == "max_pooling") {
+			layers.push_back(blockToMaxPooling(blocks[i], network));
+			network.layer[layers.size() - 1] = blockToMaxPooling(blocks[i], network);
+		}
+	}
+	
+	if(layersN != layers.size())
+		throw "some error";
+	
+	for(int i = 0; i < layersN; ++i)
+		network.layer[i] = layers[i];
 	
 	// построить последовательность выполнения слоев
 	int seqId;
@@ -37,44 +63,50 @@ Network Parser::blockToNetwork(Block block) {
 		if(blocks[i].what == "sequence")
 			seqId = i;
 	
+	if(layers.size() != blocks[seqId].size() )
+		throw "error with sequence length";
+	
 	for(int i = 0; i < blocks[seqId].size(); ++i)
 		network.seq[i] = network.nameToLayerId(blocks[seqId][i][0]);
 	
 	// выделить память для всех карт признаков
-	network.initData();
+	for(int i = 0; i < network.dN; ++i)
+		network.data[i].initMem();
 	
 	return network;
 }
 
-Convolution Parser::blockToConv(Block block) {
+Convolution Parser::blockToConv(Block &block, Network &network) {
 	int K = block.getInt("kernel");
 	int S = block.getInt("stride");
 	Convolution conv(K, S, block.name);
-	Data axon(0, 0, block.getString("axon"));
-	Data dendrite(0, 0, block.getString("dendrite"));
+	Data axon = network.nameToData(block.getString("axon"));
+	Data dendrite = network.nameToData(block.getString("dendrite"));
 	conv.setData(axon, dendrite);
 	return conv;
 }
 
-MaxPooling Parser::blockToMaxPooling(Block block) {
+MaxPooling Parser::blockToMaxPooling(Block &block, Network &network) {
 	int K = block.getInt("kernel");
 	MaxPooling mp(K, block.name);
-	mp.axon = Data(0, 0, block.getString("axon"));
-	mp.dendrite = Data(0, 0, block.getString("dendrite"));
+	Data axon = network.nameToData(block.getString("axon"));
+	Data dendrite = network.nameToData(block.getString("dendrite"));
+	mp.setData(axon, dendrite);
 	return mp;
 }
 
-Data Parser::blockToData(Block block) {
+Data Parser::blockToData(Block &block) {
 	int N = block.getInt("N");
 	int M = block.getInt("M");
 	return Data(M, N, block.name);
 }
 
-vector<Block> Parser::explodeBlock(Block block) {
+vector<Block> Parser::explodeBlock(Block &block) {
 	int cPos = 0;
 	vector<Block> v;
+	Block tmp;
 	while(cPos < block.size()) {
-		Block tmp;
+		tmp = Block();
 		tmp.what = block[cPos][0];
 		tmp.name = block[cPos][1];
 		++cPos;
@@ -99,6 +131,7 @@ vector<Block> Parser::explodeBlock(Block block) {
 void Line::init(string str) {
 	bool split = true;
 	string temp = "";
+	words.clear();
 	for (unsigned int i = 0; i < str.length(); ++i) {
 		char c = str[i];
 		#ifdef COMMENT
@@ -155,15 +188,35 @@ string Line::operator[](int index) {
 	return words[index];
 }
 
+Block::Block(Block const &block) {
+	what = block.what;
+	name = block.name;
+	for(int i = 0; i < block.lines.size(); ++i)
+		lines.push_back(block.lines[i]);
+}
+
 void Block::init(string filename) {
-	what = "block_from_file";
-	name = filename;
 	ifstream f(filename.c_str());
 	string str;
 	Line line;
-	while(getline(f, str))
-		if( (line = str).size() != 0 )
+	lines.clear();
+	
+	getline(f, str);
+	line = str;
+	what = line[0];
+	name = line[1];
+	
+	while(getline(f, str)) {
+		line = str;
+		if (line.size() != 0)
 			add(line);
+	}
+	
+	if(lines[0][0] == "begin") {
+		lines.erase(lines.begin());
+		lines.erase(lines.end());
+	}
+	
 	f.close();
 }
 
@@ -191,6 +244,7 @@ string Block::getString(string what) {
 Block Block::operator=(Block block) {
 	what = block.what;
 	name = block.name;
+	lines.clear();
 	for (int i = 0; i < block.size(); ++i)
 		add(block[i]);
 	return *this;

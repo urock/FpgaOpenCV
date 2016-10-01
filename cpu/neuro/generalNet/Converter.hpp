@@ -11,6 +11,7 @@
 
 class Converter
 {
+public:
 	Converter() {};
 	~Converter() {};
 	

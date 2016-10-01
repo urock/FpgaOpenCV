@@ -4,16 +4,30 @@
 
 #include "Layer.hpp"
 
-void Layer::initData() {
-	axon.initMem();
+bool Layer::check() {}
+void Layer::compute() {}
+void Layer::proceedError() {}
+
+void Layer::setData(Data sDendrite, Data sAxon) {
+	dendrite = sDendrite;
+	axon = sAxon;
+	
+	errDend = dendrite;
 	errDend.initMem();
+	errAxon = axon;
+	errAxon.initMem();
 }
 
-Layer Layer::operator=(Layer layer) {
-	name = layer.name;
-	axon = layer.axon;
-	dendrite = layer.dendrite;
-	errAxon = layer.errAxon;
-	errDend = layer.errDend;
-	return *this;
+vector<flt*> Layer::getWeights() {
+	return vector<flt*>();
 }
+vector<flt*> Layer::getGrads() {return vector<flt*>(); }
+
+//Layer Layer::operator=(Layer layer) {
+//	name = layer.name;
+//	axon = layer.axon;
+//	dendrite = layer.dendrite;
+//	errAxon = layer.errAxon;
+//	errDend = layer.errDend;
+//	return *this;
+//}

@@ -5,19 +5,27 @@
 #include <cstring>
 #include "Data.hpp"
 
-Data::Data(int sM, int sN, string sName) : M(sM) , N(sN), name(sName), sourcesNum(0) {}
+Data::Data(int sM, int sN, string sName) : M(sM) , N(sN), name(sName), sourcesNum(0), ownMem(false), inited(false) {}
 
-Data::Data(const Data &data) : Data(data.M, data.N, data.name) {}
+Data::Data(const Data &data) : Data(data.M, data.N, data.name) {
+	inited = true;
+	ownMem = false;
+	sourcesNum = data.sourcesNum;
+	sourceSz = data.sourceSz;
+	pixel = data.pixel;
+}
 
 Data::~Data(){
 //	clearMem();
 }
 
 void Data::initMem(){
-	if(sourcesNum > 0)
+	if(ownMem)
 		throw "memory is already inited";
 	
 	sourcesNum = 1;
+	sourceSz = (int*) malloc(sizeof(int) * sourcesNum);
+	sourceSz[0] = N;
 	pixel = (flt****) malloc(sizeof(flt***) * sourcesNum);
 	for (int k = 0; k < sourcesNum; ++k) {
 		pixel[k] = (flt***) malloc(sizeof(flt**) * sourceSz[k]);
@@ -28,10 +36,12 @@ void Data::initMem(){
 			}
 		}
 	}
+	ownMem = true;
+	inited = true;
 }
 
 void Data::resetMem(){
-	if(sourcesNum == 0)
+	if(!inited)
 		throw "memory is not inited. cannot reset";
 	
 	for (int k = 0; k < sourcesNum; ++k)
@@ -41,7 +51,7 @@ void Data::resetMem(){
 }
 
 void Data::clearMem(){
-	if(sourcesNum = 0)
+	if(!ownMem)
 		throw "memory is not inited. cannot clear";
 	
 	for (int k = 0; k < sourcesNum; ++k) {
@@ -59,11 +69,13 @@ void Data::clearMem(){
 	free(pixel);
 	
 	sourcesNum = 0;
+	ownMem = false;
 }
 
 Data Data::operator=(Data source){
-	if(sourcesNum > 0)
+	if(ownMem)
 		clearMem();
+	inited = true;
 	M = source.M;
 	N = source.N;
 	sourcesNum = source.sourcesNum;
@@ -74,7 +86,7 @@ Data Data::operator=(Data source){
 }
 
 Data Data::range(int i1, int i2) {
-	if(sourcesNum < 1)
+	if(!inited)
 		throw "error []: memory is not inited";
 	if(sourcesNum == 1) {
 		Data tmp = *this;

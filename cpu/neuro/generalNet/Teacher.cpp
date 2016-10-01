@@ -21,7 +21,7 @@ void Teacher::writeWeights(Network network, string filename) {
 	f.close();
 }
 
-flt error(Data real, Data theor) {
+flt error(Data &real, Data &theor) {
 	flt sum = 0;
 	for (int i = 0; i < real.N; ++i)
 		for (int j = 0; j < real.M; ++j)
@@ -29,9 +29,10 @@ flt error(Data real, Data theor) {
 				flt t = real.at(i, j, k) - theor.at(i, j, k);
 				sum += t * t;
 			}
+	return sum;
 }
 
-void countErrDeriv(Data real, Data theor, Data deriv) {
+void countErrDeriv(Data &real, Data &theor, Data &deriv) {
 	deriv.resetMem();
 	for (int i = 0; i < real.N; ++i)
 		for (int j = 0; j < real.M; ++j)
@@ -39,14 +40,16 @@ void countErrDeriv(Data real, Data theor, Data deriv) {
 				deriv.at(i, j, k) = real.at(i, j, k) - theor.at(i, j, k);
 }
 
-void Teacher::teach(Network &network, vector<Data> in, vector<Data> out, int iterations, string fileForErrors) {
+void Teacher::teach(Network &network, vector<Data> &in, vector<Data> &out, int iterations, string fileForErrors) {
 	GradDescent gradDescent(network.getWeights(), network.getGrads());
 	int crossId = 0;
 	int size = (int) in.size();
 	int bigIters = iterations / size;
 	ofstream f(fileForErrors.c_str());
 	for(int i = 0; i < bigIters; ++i) {
-		for(int j = 0; j < size && j != crossId; ++j) {
+		for(int j = 0; j < size; ++j) {
+			if(j == crossId)
+				continue;
 			network.dendrite = in[j];
 			network.compute();
 			countErrDeriv(network.axon, out[i], network.errAxon);

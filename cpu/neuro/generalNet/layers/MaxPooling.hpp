@@ -12,10 +12,11 @@ class MaxPooling : public Subsampling
 {
 public:
 	MaxPooling(int sK, string sName);
-	void compute();
-	void proceedError();
+	virtual void compute();
+	virtual void proceedError();
+	virtual void setData(Data sDendrite, Data sAxon);
 	
-	MaxPooling operator=(MaxPooling);
+	MaxPooling &operator=(const MaxPooling &);
 	
 	Data choice;
 };

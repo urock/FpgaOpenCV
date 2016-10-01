@@ -16,14 +16,14 @@ public:
 	Layer(){}
 	Layer(string sName) : name(sName) {}
 	~Layer(){}
+	//todo: всем слоям конструкторы копирования
 	
-	virtual Layer operator=(Layer);
-	
-	virtual void initData();
+	//virtual Layer operator=(Layer);
 	
 	virtual bool check();
 	virtual void compute();
 	virtual void proceedError();
+	virtual void setData(Data sDendrite, Data sAxon);
 	
 	virtual vector<flt*> getWeights();
 	virtual vector<flt*> getGrads();

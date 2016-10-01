@@ -6,8 +6,8 @@
 #define GENERALIZEDNET_NETWORK_H
 
 
-#include "Data.hpp"
-#include "Layer.hpp"
+#include "../Data.hpp"
+#include "../Layer.hpp"
 
 class Network : public Layer
 {
@@ -16,14 +16,10 @@ public:
 	Network(int sDN, int sLN);
 	~Network();
 	
-	Network operator=(Network);
+	Network &operator=(Network const &network);
 	
-	void initData();
-	
-	int nameToDataId(string name);
+	Data &nameToData(string name);
 	int nameToLayerId(string name);
-	void connectAxon(string dName, string lName); // data to layer
-	void connectDendrite(string dName, string lName);
 	
 	bool check();
 	void compute();
@@ -31,8 +27,6 @@ public:
 	
 	vector<flt*> getWeights();
 	vector<flt*> getGrads();
-	
-	virtual Layer operator=(Layer layer) override;
 	
 	int dN, lN; // number of datas and layers
 	

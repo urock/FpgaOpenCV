@@ -4,11 +4,17 @@
 
 #include "MaxPooling.hpp"
 
-MaxPooling::MaxPooling(int sK, string sName) : Subsampling(sK, sName), choice(dendrite.M, dendrite.N) {
+MaxPooling::MaxPooling(int sK, string sName) : Subsampling(sK, sName) {
+	
+}
+
+void MaxPooling::setData(Data sDendrite, Data sAxon) {
+	Layer::setData(sDendrite, sAxon);
+	choice = Data(dendrite.M, dendrite.N);
 	choice.initMem();
 }
 
-MaxPooling MaxPooling::operator=(MaxPooling maxPooling) {
+MaxPooling &MaxPooling::operator=(const MaxPooling &maxPooling) {
 	Subsampling::operator=(maxPooling);
 	choice = maxPooling.choice;
 	return *this;
