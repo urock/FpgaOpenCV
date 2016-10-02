@@ -13,7 +13,7 @@ public:
 	Convolution() {}
 	Convolution(int sK, int sS, string sName);
 	~Convolution() {}
-	virtual void setData(Data dendrite, Data axon);
+	virtual void setData(Data dendrite, Data axon, Data sEDendrite, Data sEAxon);
 	virtual bool check();
 	
 	Convolution &operator=(Convolution const &);

@@ -19,6 +19,7 @@ public:
 	Network &operator=(Network const &network);
 	
 	Data &nameToData(string name);
+	Data &nameToErrorData(string name);
 	int nameToLayerId(string name);
 	
 	bool check();
@@ -33,7 +34,7 @@ public:
 	Data *data;
 	Data *deriv;
 	
-	Layer *layer;
+	Layer **layer;
 	
 	int *seq;
 };

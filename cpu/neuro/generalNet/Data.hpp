@@ -23,6 +23,7 @@ public:
 	void initMem();
 	void resetMem();
 	void clearMem();
+	void copyFrom(Data &source);
 	
 	Data operator=(Data source);
 	Data range(int i1, int i2);

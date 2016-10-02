@@ -25,14 +25,18 @@ Convolution &Convolution::operator=(Convolution const &convolution) {
 	return *this;
 }
 
-void Convolution::setData(Data sDendrite, Data sAxon) {
-	Layer::setData(sDendrite, sAxon);
+void Convolution::setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAxon) {
+	Layer::setData(sDendrite, sAxon, sEDendrite, sEAxon);
 	preaxon = axon;
 	bias = axon;
 	biasGrad = axon;
 	
-	N = axon.N;
-	M = dendrite.N;
+	preaxon.initMem();
+	bias.initMem();
+	biasGrad.initMem();
+	
+	N = dendrite.N;
+	M = axon.N;
 	
 	is = dendrite.M;
 	os = axon.M;
@@ -54,10 +58,6 @@ void Convolution::setData(Data sDendrite, Data sAxon) {
 			}
 		}
 	}
-	
-	preaxon.initMem();
-	bias.initMem();
-	biasGrad.initMem();
 }
 
 bool Convolution::check() {
@@ -115,8 +115,8 @@ flt df(flt x){
 void Convolution::compute() {
 	for(int row = 0; row < os; ++row)
 		for (int col = 0; col < os; ++col)
-			for (int map = 0; map < N; ++map)
-				preaxon.at(map, row, col) = bias.at(map, row, col);
+			for (int neuron = 0; neuron < M; ++neuron)
+				preaxon.at(neuron, row, col) = bias.at(neuron, row, col);
 	// these cycles can be merged
 	for(int row = 0; row < os; ++row)
 		for (int col = 0; col < os; ++col) {
@@ -126,36 +126,34 @@ void Convolution::compute() {
 				for (int neuron = 0; neuron < M; ++neuron)
 					for (int i = 0; i < K; ++i)
 						for (int j = 0; j < K; ++j)
-							preaxon.at(map, row, col) +=
-									weight[map][neuron][i][j] *
-									dendrite.at(neuron, rS + i, cS + j);
+							preaxon.at(neuron, row, col) +=
+									weight[map][neuron][i][j]
+									* dendrite.at(map, rS + i, cS + j);
 		}
 	for(int row = 0; row < os; ++row)
 		for (int col = 0; col < os; ++col)
-			for (int map = 0; map < N; ++map)
-				axon.at(map, row, col) = f(preaxon.at(map, row, col));
+			for (int neuron = 0; neuron < M; ++neuron)
+				axon.at(neuron, row, col) = f(preaxon.at(neuron, row, col));
 }
 
 void Convolution::proceedError() {
-	for (int map = 0; map < N; ++map)
-		for (int neuron = 0; neuron < M; ++neuron)
-			for (int i = 0; i < K; ++i)
-				for (int j = 0; j < K; ++j)
-					grad[map][neuron][i][j] = 0.0;
 	for(int row = 0; row < os; ++row)
 		for (int col = 0; col < os; ++col) {
 			int rS = row * S;
 			int cS = col * S;
 			for (int map = 0; map < N; ++map) {
-				flt dfS = df(preaxon.at(map, row, col));
-				flt eA = errAxon.at(map, row, col);
-				biasGrad.at(map, row, col) = eA * dfS;
-				for (int neuron = 0; neuron < M; ++neuron)
+				for (int neuron = 0; neuron < M; ++neuron) {
+					flt dfS = df(preaxon.at(neuron, row, col));
+					flt eA = errAxon.at(neuron, row, col);
+					biasGrad.at(neuron, row, col) = eA * dfS;
 					for (int i = 0; i < K; ++i)
 						for (int j = 0; j < K; ++j) {
-							grad[map][neuron][i][j] += eA * dfS * dendrite.at(neuron, rS + i, cS + j);
-							errDend.at(neuron, rS + i, cS + j) += eA * dfS * weight[map][neuron][i][j];
+							grad[map][neuron][i][j] +=
+									eA * dfS * dendrite.at(map, rS + i, cS + j);
+							errDend.at(map, rS + i, cS + j) +=
+									eA * dfS * weight[map][neuron][i][j];
 						}
+				}
 			}
 		}
 }

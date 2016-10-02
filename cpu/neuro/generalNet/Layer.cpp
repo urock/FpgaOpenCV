@@ -8,14 +8,11 @@ bool Layer::check() {}
 void Layer::compute() {}
 void Layer::proceedError() {}
 
-void Layer::setData(Data sDendrite, Data sAxon) {
+void Layer::setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAxon) {
 	dendrite = sDendrite;
 	axon = sAxon;
-	
-	errDend = dendrite;
-	errDend.initMem();
-	errAxon = axon;
-	errAxon.initMem();
+	errDend = sEDendrite;
+	errAxon = sEAxon;
 }
 
 vector<flt*> Layer::getWeights() {

@@ -14,7 +14,7 @@ public:
 	MaxPooling(int sK, string sName);
 	virtual void compute();
 	virtual void proceedError();
-	virtual void setData(Data sDendrite, Data sAxon);
+	virtual void setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAxon);
 	
 	MaxPooling &operator=(const MaxPooling &);
 	

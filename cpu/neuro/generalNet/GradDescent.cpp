@@ -6,7 +6,7 @@
 #include "GradDescent.hpp"
 
 #define EPS 1e-8f
-#define SPEED .001f
+#define SPEED 1e-5 //was too good with 1e-3
 
 GradDescent::GradDescent(vector<flt*> w, vector<flt*> g) {
 	weights = w;
@@ -28,7 +28,7 @@ void GradDescent::usualGD() {
 		return;
 	for(int i = 0; i < weightsN; ++i) {
 		flt g = *grad[i];
-		*weights[i] += SPEED * g;
+		*weights[i] -= SPEED * g;
 		*grad[i] = 0.0f;
 	}
 }

@@ -53,10 +53,10 @@ class Parser
 public:
 	Parser() {}
 	
-	Network blockToNetwork(Block &block);
+	Network *blockToNetwork(Block &block);
 	
-	Convolution blockToConv(Block &block, Network &network);
-	MaxPooling blockToMaxPooling(Block &block, Network &network);
+	Convolution *blockToConv(Block &block, Network &network);
+	MaxPooling *blockToMaxPooling(Block &block, Network &network);
 	
 	Data blockToData(Block &block);
 	

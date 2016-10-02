@@ -8,8 +8,8 @@ MaxPooling::MaxPooling(int sK, string sName) : Subsampling(sK, sName) {
 	
 }
 
-void MaxPooling::setData(Data sDendrite, Data sAxon) {
-	Layer::setData(sDendrite, sAxon);
+void MaxPooling::setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAxon) {
+	Layer::setData(sDendrite, sAxon, sEDendrite, sEAxon);
 	choice = Data(dendrite.M, dendrite.N);
 	choice.initMem();
 }

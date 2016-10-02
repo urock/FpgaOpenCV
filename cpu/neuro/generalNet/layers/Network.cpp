@@ -8,7 +8,7 @@
 Network::Network(int sDN, int sLN) : dN(sDN), lN(sLN) {
 	data = new Data[dN];
 	deriv = new Data[dN];
-	layer = new Layer[lN];
+	layer = new Layer*[lN];
 	seq = (int*) malloc(lN * sizeof(int));
 }
 
@@ -33,13 +33,23 @@ Data &Network::nameToData(string name) {
 		return axon;
 	if(dendrite.name == name)
 		return dendrite;
-	cout << "data " << name << "not found\n";
-	return axon;
+	throw "data not found\n";
+}
+
+Data &Network::nameToErrorData(string name) {
+	for(int i = 0; i < dN; ++i)
+		if(deriv[i].name == name)
+			return deriv[i];
+	if(errAxon.name == name)
+		return errAxon;
+	if(errDend.name == name)
+		return errDend;
+	throw "error not found\n";
 }
 
 int Network::nameToLayerId(string name) {
 	for(int i = 0; i < lN; ++i)
-		if(layer[i].name == name)
+		if(layer[i]->name == name)
 			return i;
 	cout << name << " layer id -1\n";
 	return -1;
@@ -48,23 +58,23 @@ int Network::nameToLayerId(string name) {
 bool Network::check() {
 	bool res = true;
 	for(int i = 0; i < lN; ++i)
-		res = res && layer[i].check();
+		res = res && layer[i]->check();
 	return res;
 }
 
 void Network::compute() {
 	for(int i = 0; i < lN; ++i)
-		layer[seq[i]].compute();
+		layer[seq[i]]->compute();
 }
 void Network::proceedError() {
 	for(int i = lN - 1; i != 0; --i)
-		layer[seq[i]].proceedError();
+		layer[seq[i]]->proceedError();
 }
 
 vector<flt*> Network::getWeights() {
 	vector<flt*> a;
 	for (int i = 0; i < lN; ++i) {
-		vector<flt*> b = layer[i].getWeights();
+		vector<flt*> b = layer[i]->getWeights();
 		a.insert(a.end(), b.begin(), b.end());
 	}
 	return a;
@@ -73,7 +83,7 @@ vector<flt*> Network::getWeights() {
 vector<flt*> Network::getGrads() {
 	vector<flt*> a;
 	for (int i = 0; i < lN; ++i) {
-		vector<flt*> b = layer[i].getGrads();
+		vector<flt*> b = layer[i]->getGrads();
 		a.insert(a.end(), b.begin(), b.end());
 	}
 	return a;

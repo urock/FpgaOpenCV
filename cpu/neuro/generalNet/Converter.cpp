@@ -28,13 +28,15 @@ int getDir(string dir, vector<string> &files)
 	return 0;
 }
 
-Data matToData(Mat img) {
+Data matToData(Mat &img) {
 	Data data(img.rows, img.channels());
 	data.initMem();
 	for(int c = 0; c < img.channels(); ++c)
-		for(int i = 0; i < img.rows; ++i)
-			for (int j = 0; j < img.rows; ++j)
-				data.at(c, i, j) = (flt) ((Scalar)img.at<flt>(i, j))[c];
+		for(int i = 0; i < img.cols; ++i)
+			for (int j = 0; j < img.rows; ++j) {
+				flt *a = new flt((flt)img.at<uchar>(i, j) / 255.0f);
+				data.at(c, i, j) = *a;
+			}
 	return data;
 	//todo: check adequacy
 }

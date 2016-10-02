@@ -6,20 +6,23 @@
 #include <iostream>
 #include "Parser.hpp"
 
-Network Parser::blockToNetwork(Block &block) {
+Network *Parser::blockToNetwork(Block &block) {
 	vector<Block> blocks = explodeBlock(block);
 	
 	vector<Data> data;
-	Data axon, dendrite;
-	vector<Layer> layers;
+	Data axon, dendrite, eAxon, eDendrite;
 	// скопировать все данные из файла
 	for(int i = 0; i < blocks.size(); ++i) {
 		if (blocks[i].what == "data")
 			data.push_back(blockToData(blocks[i]));
-		if(blocks[i].what == "axon")
+		if(blocks[i].what == "axon") {
 			axon = blockToData(blocks[i]);
-		if(blocks[i].what == "dendrite")
+			eAxon = blockToData(blocks[i]);
+		}
+		if(blocks[i].what == "dendrite") {
 			dendrite = blockToData(blocks[i]);
+			eDendrite = blockToData(blocks[i]);
+		}
 	}
 	
 	//count layers
@@ -31,67 +34,73 @@ Network Parser::blockToNetwork(Block &block) {
 			++layersN;
 	}
 	
-	Network network(data.size(), layersN);
-	network.setData(dendrite, axon);
+	Network *network = new Network((int)data.size(), layersN);
+	network->setData(dendrite, axon, eDendrite, eAxon);
 	for(int i = 0; i < data.size(); ++i) {
-		network.data[i] = data[i];
-		network.deriv[i] = data[i];
-		network.deriv[i].initMem();
+		network->data[i] = data[i];
+		network->deriv[i] = data[i];
 	}
+	
+	// выделить память для всех карт признаков
+	for(int i = 0; i < network->dN; ++i) {
+		network->data[i].initMem();
+		network->deriv[i].initMem();
+	}
+	network->axon.initMem();
+	network->errAxon.initMem();
+	network->dendrite.initMem();
+	network->errDend.initMem();
 	
 	// скопировать все слои из файла
+	int lastIndex = 0;
 	for(int i = 0; i < blocks.size(); ++i) {
 		if(blocks[i].what == "convolution") {
-			layers.push_back(blockToConv(blocks[i], network));
-			network.layer[layers.size() - 1] = blockToConv(blocks[i], network);
+			network->layer[lastIndex] = blockToConv(blocks[i], *network);
+			++lastIndex;
 		}
 		if(blocks[i].what == "max_pooling") {
-			layers.push_back(blockToMaxPooling(blocks[i], network));
-			network.layer[layers.size() - 1] = blockToMaxPooling(blocks[i], network);
+			network->layer[lastIndex] = blockToMaxPooling(blocks[i], *network);
+			++lastIndex;
 		}
 	}
 	
-	if(layersN != layers.size())
-		throw "some error";
-	
-	for(int i = 0; i < layersN; ++i)
-		network.layer[i] = layers[i];
-	
 	// построить последовательность выполнения слоев
-	int seqId;
+	int seqId = -1;
 	for(int i = 0; i < blocks.size(); ++i)
 		if(blocks[i].what == "sequence")
 			seqId = i;
 	
-	if(layers.size() != blocks[seqId].size() )
+	if(seqId == -1)
+		throw "sequence not found";
+	if(layersN != blocks[seqId].size() )
 		throw "error with sequence length";
 	
 	for(int i = 0; i < blocks[seqId].size(); ++i)
-		network.seq[i] = network.nameToLayerId(blocks[seqId][i][0]);
-	
-	// выделить память для всех карт признаков
-	for(int i = 0; i < network.dN; ++i)
-		network.data[i].initMem();
+		network->seq[i] = network->nameToLayerId(blocks[seqId][i][0]);
 	
 	return network;
 }
 
-Convolution Parser::blockToConv(Block &block, Network &network) {
+Convolution *Parser::blockToConv(Block &block, Network &network) {
 	int K = block.getInt("kernel");
 	int S = block.getInt("stride");
-	Convolution conv(K, S, block.name);
+	Convolution *conv = new Convolution(K, S, block.name);
 	Data axon = network.nameToData(block.getString("axon"));
 	Data dendrite = network.nameToData(block.getString("dendrite"));
-	conv.setData(axon, dendrite);
+	Data eAxon = network.nameToErrorData(block.getString("axon"));
+	Data eDendrite = network.nameToErrorData(block.getString("dendrite"));
+	conv->setData(dendrite, axon, eDendrite, eAxon);
 	return conv;
 }
 
-MaxPooling Parser::blockToMaxPooling(Block &block, Network &network) {
+MaxPooling *Parser::blockToMaxPooling(Block &block, Network &network) {
 	int K = block.getInt("kernel");
-	MaxPooling mp(K, block.name);
+	MaxPooling *mp = new MaxPooling(K, block.name);
 	Data axon = network.nameToData(block.getString("axon"));
 	Data dendrite = network.nameToData(block.getString("dendrite"));
-	mp.setData(axon, dendrite);
+	Data eAxon = network.nameToErrorData(block.getString("axon"));
+	Data eDendrite = network.nameToErrorData(block.getString("dendrite"));
+	mp->setData(dendrite, axon, eDendrite, eAxon);
 	return mp;
 }
 
@@ -169,7 +178,7 @@ Line Line::operator=(Line line) {
 
 string Line::to_str() {
 	string str = "";
-	int s = size();
+	int s = (int)size();
 	for(int i = 0; i < s; ++i) {
 		str += operator[](i);
 		if(i < s - 1)

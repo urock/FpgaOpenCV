@@ -17,7 +17,7 @@ void Teacher::writeWeights(Network network, string filename) {
 	ofstream f(filename.c_str());
 	vector<flt*> weights = network.getWeights();
 	for(int i = 0; i < weights.size(); ++i)
-		f << weights[i] << " ";
+		f << *weights[i] << " ";
 	f.close();
 }
 
@@ -41,25 +41,31 @@ void countErrDeriv(Data &real, Data &theor, Data &deriv) {
 }
 
 void Teacher::teach(Network &network, vector<Data> &in, vector<Data> &out, int iterations, string fileForErrors) {
+	if(in.size() != out.size())
+		throw "Error: input and output sizes do not match";
 	GradDescent gradDescent(network.getWeights(), network.getGrads());
 	int crossId = 0;
 	int size = (int) in.size();
 	int bigIters = iterations / size;
+	if(bigIters < MIN_CHECKS) {
+		bigIters = MIN_CHECKS;
+		size = iterations / bigIters;
+	}
 	ofstream f(fileForErrors.c_str());
 	for(int i = 0; i < bigIters; ++i) {
+		if(f.is_open()) {
+			network.dendrite.copyFrom(in[crossId]);
+			network.compute();
+			f << error(network.axon, out[crossId]) << endl;
+		}
 		for(int j = 0; j < size; ++j) {
 			if(j == crossId)
 				continue;
-			network.dendrite = in[j];
+			network.dendrite.copyFrom(in[j]);
 			network.compute();
 			countErrDeriv(network.axon, out[i], network.errAxon);
 			network.proceedError();
 			gradDescent.compute();
-		}
-		if(f.is_open()) {
-			network.dendrite = in[crossId];
-			network.compute();
-			f << error(network.axon, out[crossId]) << endl;
 		}
 		crossId = (crossId + 1) % size;
 	}

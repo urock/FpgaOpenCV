@@ -21,7 +21,7 @@ Data::~Data(){
 
 void Data::initMem(){
 	if(ownMem)
-		throw "memory is already inited";
+		clearMem();
 	
 	sourcesNum = 1;
 	sourceSz = (int*) malloc(sizeof(int) * sourcesNum);
@@ -52,7 +52,7 @@ void Data::resetMem(){
 
 void Data::clearMem(){
 	if(!ownMem)
-		throw "memory is not inited. cannot clear";
+		throw "memory is not own. cannot clear";
 	
 	for (int k = 0; k < sourcesNum; ++k) {
 		for(int i = 0; i < sourceSz[k]; ++i)
@@ -70,6 +70,17 @@ void Data::clearMem(){
 	
 	sourcesNum = 0;
 	ownMem = false;
+}
+
+void Data::copyFrom(Data &source) {
+	if(M != source.M || N != source.N)
+		throw "format error";
+	if(!ownMem || !source.inited)
+		throw "copy error";
+	for(int i = 0; i < N; ++i)
+		for (int j = 0; j < M; ++j)
+			for (int k = 0; k < M; ++k)
+				at(i, j, k) = source.at(i, j, k);
 }
 
 Data Data::operator=(Data source){

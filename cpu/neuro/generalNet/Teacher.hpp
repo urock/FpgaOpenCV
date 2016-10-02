@@ -5,9 +5,10 @@
 #ifndef GENERALIZEDNET_TEACHER_HPP
 #define GENERALIZEDNET_TEACHER_HPP
 
-
 #include "layers/Network.hpp"
 #include "Parser.hpp"
+
+#define MIN_CHECKS 40
 
 class Teacher
 {
