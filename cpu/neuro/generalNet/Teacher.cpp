@@ -6,8 +6,12 @@
 #include "Teacher.hpp"
 #include "GradDescent.hpp"
 
-void Teacher::readWeights(string filename, Network network) {
-	Line line = Block(filename)[0];
+void Teacher::readWeights(string filename, Network &network) {
+	ifstream f(filename.c_str());
+	string str;
+	getline(f, str);
+	Line line;
+	line = str;
 	vector<flt*> weights = network.getWeights();
 	for(int i = 0; i < weights.size(); ++i)
 		*weights[i] = atof(line[i].c_str());
@@ -33,7 +37,6 @@ flt error(Data &real, Data &theor) {
 }
 
 void countErrDeriv(Data &real, Data &theor, Data &deriv) {
-	deriv.resetMem();
 	for (int i = 0; i < real.N; ++i)
 		for (int j = 0; j < real.M; ++j)
 			for (int k = 0; k < real.M; ++k)
@@ -53,20 +56,28 @@ void Teacher::teach(Network &network, vector<Data> &in, vector<Data> &out, int i
 	}
 	ofstream f(fileForErrors.c_str());
 	for(int i = 0; i < bigIters; ++i) {
-		if(f.is_open()) {
-			network.dendrite.copyFrom(in[crossId]);
-			network.compute();
-			f << error(network.axon, out[crossId]) << endl;
-		}
-		for(int j = 0; j < size; ++j) {
+		int start = i * size % (int)in.size();
+		int end = (start + size) % (int)in.size();
+		for(int j = start; j < end; j = (j + 1) % (int)in.size()) {
 			if(j == crossId)
 				continue;
 			network.dendrite.copyFrom(in[j]);
 			network.compute();
-			countErrDeriv(network.axon, out[i], network.errAxon);
+			countErrDeriv(network.axon, out[j], network.errAxon);
 			network.proceedError();
 			gradDescent.compute();
 		}
-		crossId = (crossId + 1) % size;
+		if(f.is_open()) {
+			network.dendrite.copyFrom(in[crossId]);
+			network.compute();
+			f << error(network.axon, out[crossId]) << '\t';
+//			f << '\t' << out[crossId].at(0,0,0) << '\t' << out[crossId].at(1,0,0) << '\t' <<
+//					network.axon.at(0,0,0) << '\t' << network.axon.at(1,0,0) << '\t' << endl;
+//			f << out[crossId].at(0,0,0) - network.axon.at(0,0,0) << '\t'
+//					<< out[crossId].at(1,0,0) - network.axon.at(1,0,0) << endl;
+			f << network.axon.at(0,0,0) << '\t'
+			  << network.axon.at(1,0,0) << endl;
+		}
+		crossId = (crossId + 1) % (int)in.size();
 	}
 }

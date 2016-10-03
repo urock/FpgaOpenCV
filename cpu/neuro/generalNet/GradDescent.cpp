@@ -5,9 +5,6 @@
 #include <cmath>
 #include "GradDescent.hpp"
 
-#define EPS 1e-8f
-#define SPEED 1e-5 //was too good with 1e-3
-
 GradDescent::GradDescent(vector<flt*> w, vector<flt*> g) {
 	weights = w;
 	grad = g;
@@ -27,8 +24,8 @@ void GradDescent::usualGD() {
 	if(stage != 0)
 		return;
 	for(int i = 0; i < weightsN; ++i) {
-		flt g = *grad[i];
-		*weights[i] -= SPEED * g;
+		flt g = -*grad[i];
+		*weights[i] += SPEED * g;
 		*grad[i] = 0.0f;
 	}
 }
@@ -37,11 +34,12 @@ void GradDescent::NAG() {
 		return;
 	for(int i = 0; i < weightsN; ++i) {
 		flt g = -*grad[i];
-		flt d = dw[i];
 		
-		flt ng = SPEED * g; // for NAG, replace this
-		*weights[i] += ng;
-		dw[i] = GAMMA * (d + ng);
+		flt ng = SPEED * g;
+		*weights[i] += -dw[i] + ng;
+		dw[i] *= GAMMA;
+		dw[i] += ng;
+		
 		*weights[i] += dw[i];
 		
 		*grad[i] = 0.0f;
@@ -53,11 +51,11 @@ void GradDescent::adaDelta() {
 		return;
 	for(int i = 0; i < weightsN; ++i) {
 		flt g = -*grad[i];
-		flt d = dw[i];
-		ravDelta[i] = GAMMA * ravDelta[i] + d * d;
 		ravGrad[i] = GAMMA * ravGrad[i] + g * g;
 		flt ng = (flt) sqrt(ravDelta[i]) / (flt) sqrt(ravGrad[i]) * g;
 		*weights[i] += ng;
+		ravDelta[i] = GAMMA * ravDelta[i] + ng * ng;
+		
 		*grad[i] = 0.0f;
 	}
 	// todo: check with paper
@@ -84,6 +82,6 @@ void GradDescent::eeeRokk() {
 
 void GradDescent::compute() {
 	stage = (stage + 1) % BATCH_SIZE;
-	usualGD();
+	adaDelta();
 	//todo: перенести сюда обнуление
 }

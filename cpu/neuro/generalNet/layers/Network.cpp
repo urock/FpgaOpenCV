@@ -67,7 +67,7 @@ void Network::compute() {
 		layer[seq[i]]->compute();
 }
 void Network::proceedError() {
-	for(int i = lN - 1; i != 0; --i)
+	for(int i = lN - 1; i >= 0; --i)
 		layer[seq[i]]->proceedError();
 }
 

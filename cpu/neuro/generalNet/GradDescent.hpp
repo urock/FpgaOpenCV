@@ -8,8 +8,10 @@
 #include <vector>
 #include "Data.hpp"
 
-#define BATCH_SIZE 16
+#define BATCH_SIZE 8
 #define GAMMA .9f
+#define EPS 1e-8f
+#define SPEED 1e-4f
 
 class GradDescent {
 public:

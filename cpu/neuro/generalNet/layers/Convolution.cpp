@@ -103,10 +103,16 @@ vector<flt*> Convolution::getGrads() {
 }
 
 flt f(flt x){
+	if(x > 10.f)
+		return 1.f;
+	if(x < -10.)
+		return 0.f;
 	return (flt) (1.0 / (1.0 + exp(-x)));
 }
 
 flt df(flt x){
+	if(x > 10.f || x < -10.f)
+		return 0.f;
 	flt emx = exp(-x);
 	flt opemx = 1 + emx;
 	return emx / (opemx * opemx);
@@ -137,6 +143,7 @@ void Convolution::compute() {
 }
 
 void Convolution::proceedError() {
+	errDend.resetMem();
 	for(int row = 0; row < os; ++row)
 		for (int col = 0; col < os; ++col) {
 			int rS = row * S;

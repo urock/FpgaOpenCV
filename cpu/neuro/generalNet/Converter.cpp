@@ -67,4 +67,10 @@ void Converter::loadTask(string dir, vector<string> names, vector<Data> &in, vec
 			out.push_back(dataOut);
 		}
 	}
+	for(int i = 0; i < in.size() * 2; ++i) {
+		int position = rand() % (int)in.size();
+		int nextPosition = rand() % (int)in.size();
+		iter_swap(in.begin() + position, in.begin() + nextPosition);
+		iter_swap(out.begin() + position, out.begin() + nextPosition);
+	}
 }

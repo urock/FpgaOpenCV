@@ -20,14 +20,18 @@ int main() {
 	converter.loadTask("data/", names, in, out);
 	cout << "\tDone.\n";
 	
-	cout << "Teaching network...\n";
 	Teacher teacher;
+	cout << "Loading weights...\n";
+	teacher.readWeights("data/crossTaught.dat", *network);
+	cout << "\tDone.\n";
+	
+	cout << "Teaching network...\n";
 	teacher.writeWeights(*network, "data/crossInit.dat");
-	teacher.teach(*network, in, out, 1e3, "data/errors.txt");
+	teacher.teach(*network, in, out, 2e5, "data/errors.txt");
 	cout << "\tDone.\n";
 	
 	cout << "Writing results...\n";
-	teacher.writeWeights(*network, "data/crossTeached.dat");
+	teacher.writeWeights(*network, "data/crossTaught.dat");
 	cout << "\tDone.\n";
 	return 0;
 }
