@@ -7,13 +7,13 @@
 
 
 #include "../Data.hpp"
-#include "../Layer.hpp"
+#include "Layer.hpp"
 
 class Network : public Layer
 {
 public:
 	Network() : dN(0), lN(0) {}
-	Network(int sDN, int sLN);
+	Network(int sDN, int sLN, string name);
 	~Network();
 	
 	Network &operator=(Network const &network);

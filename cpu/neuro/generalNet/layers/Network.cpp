@@ -5,7 +5,7 @@
 #include <iostream>
 #include "Network.hpp"
 
-Network::Network(int sDN, int sLN) : dN(sDN), lN(sLN) {
+Network::Network(int sDN, int sLN, string name) : Layer(name), dN(sDN), lN(sLN) {
 	data = new Data[dN];
 	deriv = new Data[dN];
 	layer = new Layer*[lN];
@@ -67,6 +67,8 @@ void Network::compute() {
 		layer[seq[i]]->compute();
 }
 void Network::proceedError() {
+	for(int i = 0; i < dN; ++i)
+		deriv[i].resetMem();
 	for(int i = lN - 1; i >= 0; --i)
 		layer[seq[i]]->proceedError();
 }

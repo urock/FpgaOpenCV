@@ -8,6 +8,8 @@
 Data::Data(int sM, int sN, string sName) : M(sM) , N(sN), name(sName), sourcesNum(0), ownMem(false), inited(false) {}
 
 Data::Data(const Data &data) : Data(data.M, data.N, data.name) {
+	if(ownMem)
+		throw "memory is own";
 	inited = true;
 	ownMem = false;
 	sourcesNum = data.sourcesNum;
@@ -85,7 +87,7 @@ void Data::copyFrom(Data &source) {
 
 Data Data::operator=(Data source){
 	if(ownMem)
-		clearMem();
+		throw "memory is own";
 	inited = true;
 	M = source.M;
 	N = source.N;

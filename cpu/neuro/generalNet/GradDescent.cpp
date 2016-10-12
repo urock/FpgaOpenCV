@@ -15,6 +15,7 @@ GradDescent::GradDescent(vector<flt*> w, vector<flt*> g) {
 		ravDelta.push_back(EPS);
 		dw.push_back(0.0);
 		*grad[i] = 0.0;
+		realWeight.push_back(*weights[i]);
 	}
 	
 	stage = 0;
@@ -34,47 +35,47 @@ void GradDescent::NAG() {
 		return;
 	for(int i = 0; i < weightsN; ++i) {
 		flt g = -*grad[i];
+		flt oldSpd = dw[i];
 		
 		flt ng = SPEED * g;
-		*weights[i] += -dw[i] + ng;
-		dw[i] *= GAMMA;
-		dw[i] += ng;
+		dw[i] = GAMMA * oldSpd + ng;
+		realWeight[i] += dw[i];
 		
-		*weights[i] += dw[i];
+		*weights[i] = realWeight[i] + GAMMA * oldSpd;
 		
 		*grad[i] = 0.0f;
 	}
-	// todo: check with paper
 }
 void GradDescent::adaDelta() {
 	if(stage != 0)
 		return;
 	for(int i = 0; i < weightsN; ++i) {
 		flt g = -*grad[i];
-		ravGrad[i] = GAMMA * ravGrad[i] + g * g;
-		flt ng = (flt) sqrt(ravDelta[i]) / (flt) sqrt(ravGrad[i]) * g;
+		
+		ravGrad[i] = GAMMA * ravGrad[i] + g * g * (1.f - GAMMA);
+		flt ng = (flt) sqrt(ravDelta[i] + EPS) / (flt) sqrt(ravGrad[i] + EPS) * g;
+		ravDelta[i] = GAMMA * ravDelta[i] + ng * ng * (1.f - GAMMA);
+		
 		*weights[i] += ng;
-		ravDelta[i] = GAMMA * ravDelta[i] + ng * ng;
 		
 		*grad[i] = 0.0f;
 	}
-	// todo: check with paper
 }
 void GradDescent::eeeRokk() {
 	if(stage != 0)
 		return;
 	for(int i = 0; i < weightsN; ++i) {
 		flt g = -*grad[i];
-		flt d = dw[i];
+		flt oldSpd = dw[i];
 		
-		ravDelta[i] = GAMMA * ravDelta[i] + d * d;
-		ravGrad[i] = GAMMA * ravGrad[i] + g * g;
+		ravGrad[i] = GAMMA * ravGrad[i] + g * g * (1.f - GAMMA);
+		flt ng = ((flt) sqrt(ravDelta[i] + EPS) / (flt) sqrt(ravGrad[i] + EPS)) * g;
+		dw[i] = GAMMA * oldSpd + ng + SPEED * g;
+		ravDelta[i] = GAMMA * ravDelta[i] + ng * ng * (1.f - GAMMA);
 		
-		flt ng = (flt) sqrt(ravDelta[i]) / (flt) sqrt(ravGrad[i]) * g; // for NAG, replace this
+		realWeight[i] = realWeight[i] + dw[i];
 		
-		*weights[i] += ng;
-		dw[i] = GAMMA * (d + ng); //for AdaDelta, replace this
-		*weights[i] += dw[i]; // and remove this
+		*weights[i] = realWeight[i] + GAMMA * oldSpd;
 		
 		*grad[i] = 0.0f;
 	}
@@ -83,5 +84,4 @@ void GradDescent::eeeRokk() {
 void GradDescent::compute() {
 	stage = (stage + 1) % BATCH_SIZE;
 	adaDelta();
-	//todo: перенести сюда обнуление
 }

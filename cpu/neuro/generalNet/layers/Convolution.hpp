@@ -5,7 +5,7 @@
 #ifndef GENERALIZEDNET_CONVOLUTION_HPP
 #define GENERALIZEDNET_CONVOLUTION_HPP
 
-#include "../Layer.hpp"
+#include "Layer.hpp"
 
 class Convolution : public Layer
 {

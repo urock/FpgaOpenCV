@@ -4,14 +4,6 @@
 
 #include "Converter.hpp"
 
-#include<fstream>
-#include <dirent.h>
-#include <iostream>
-
-#include "opencv2/highgui/highgui.hpp"
-
-using namespace cv;
-
 int getDir(string dir, vector<string> &files)
 {
 	DIR *dp;
@@ -34,23 +26,22 @@ Data matToData(Mat &img) {
 	for(int c = 0; c < img.channels(); ++c)
 		for(int i = 0; i < img.cols; ++i)
 			for (int j = 0; j < img.rows; ++j) {
-				flt *a = new flt((flt)img.at<uchar>(i, j) / 255.0f);
-				data.at(c, i, j) = *a;
+				flt a = (flt)img.at<uchar>(i, j) / 255.0f;
+				data.at(c, i, j) = a;
 			}
 	return data;
-	//todo: check adequacy
 }
 
 Data indexToData(int index, int size) {
 	Data data(1, size);
 	data.initMem();
 	for(int i = 0; i < size; ++i)
-		data.at(i, 0, 0) = (i == index)? 1.0f : 0.0f;
+		data.at(i, 0, 0) = (i == index)? 1.0f : -1.0f;
 	return data;
-	//todo: check adequacy
 }
 
-void Converter::loadTask(string dir, vector<string> names, vector<Data> &in, vector<Data> &out) {
+// type 1 task - when folders with names "names" contain images and theory is generated just as delta-simbol
+void Converter::loadTask_Type1(string dir, vector<string> names, vector<Data> &in, vector<Data> &out) {
 	int species = (int) names.size();
 	for(int i = 0; i < species; ++i) {
 		string folder = dir + names[i] + string("/");

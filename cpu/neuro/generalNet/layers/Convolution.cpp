@@ -35,6 +35,11 @@ void Convolution::setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAx
 	bias.initMem();
 	biasGrad.initMem();
 	
+	for(int i = 0; i < bias.N; ++i)
+		for (int j = 0; j < bias.M; ++j)
+			for (int k = 0; k < bias.M; ++k)
+				bias.at(i, j, k) = ( 2 * ( (flt) rand() / (flt) RAND_MAX ) - 1) / (flt) sqrt(K * K * M + 1);
+	
 	N = dendrite.N;
 	M = axon.N;
 	
@@ -53,7 +58,7 @@ void Convolution::setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAx
 				weight[i][j][k] = (flt*) malloc( sizeof(flt) * K );
 				grad[i][j][k] = (flt*) malloc( sizeof(flt) * K );
 				for (int l = 0; l < K; ++l) {
-					weight[i][j][k][l] = ( 2 * ( (flt) rand() / (flt) RAND_MAX ) - 1) / (flt) sqrt(K * K * M); // initial weights
+					weight[i][j][k][l] = ( 2 * ( (flt) rand() / (flt) RAND_MAX ) - 1) / (flt) sqrt(K * K * M + 1); // initial weights
 				}
 			}
 		}
@@ -103,19 +108,18 @@ vector<flt*> Convolution::getGrads() {
 }
 
 flt f(flt x){
-	if(x > 10.f)
-		return 1.f;
-	if(x < -10.)
-		return 0.f;
-	return (flt) (1.0 / (1.0 + exp(-x)));
+	if( x < -10.f )
+		return -1.f;
+	flt ex = exp(-x);
+	return (1.0f - ex) / (1.0f + ex);
 }
 
 flt df(flt x){
-	if(x > 10.f || x < -10.f)
+	if( x < -10.f )
 		return 0.f;
-	flt emx = exp(-x);
-	flt opemx = 1 + emx;
-	return emx / (opemx * opemx);
+	flt ex = exp(-x);
+	flt s = 1.f + ex;
+	return 2.f * ex / (s*s);
 }
 
 void Convolution::compute() {
@@ -143,7 +147,6 @@ void Convolution::compute() {
 }
 
 void Convolution::proceedError() {
-	errDend.resetMem();
 	for(int row = 0; row < os; ++row)
 		for (int col = 0; col < os; ++col) {
 			int rS = row * S;

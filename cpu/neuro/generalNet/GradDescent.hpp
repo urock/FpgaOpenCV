@@ -8,10 +8,10 @@
 #include <vector>
 #include "Data.hpp"
 
-#define BATCH_SIZE 8
+#define BATCH_SIZE 10
 #define GAMMA .9f
 #define EPS 1e-8f
-#define SPEED 1e-4f
+#define SPEED 1e-3f
 
 class GradDescent {
 public:
@@ -32,6 +32,7 @@ public:
 	vector<flt> ravGrad;
 	vector<flt> ravDelta;
 	vector<flt> dw;
+	vector<flt> realWeight;
 	
 	int stage;
 	unsigned long weightsN;

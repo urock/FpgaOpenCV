@@ -6,7 +6,7 @@
 #define GENERALIZEDNET_LAYER_H
 
 #include<vector>
-#include "Data.hpp"
+#include "../Data.hpp"
 
 using namespace std;
 

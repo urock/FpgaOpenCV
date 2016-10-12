@@ -8,7 +8,7 @@
 #include<string>
 #include<vector>
 #include "Data.hpp"
-#include "Layer.hpp"
+#include "layers/Layer.hpp"
 #include "layers/Network.hpp"
 #include "layers/Convolution.hpp"
 #include "layers/Subsampling.hpp"
@@ -17,6 +17,7 @@
 using namespace std;
 
 #define COMMENT '#'
+#define NO_STRING "#NO_STRING"
 
 struct Line
 {
@@ -53,10 +54,9 @@ class Parser
 public:
 	Parser() {}
 	
-	Network *blockToNetwork(Block &block);
-	
-	Convolution *blockToConv(Block &block, Network &network);
-	MaxPooling *blockToMaxPooling(Block &block, Network &network);
+	Network *blockToNetwork(Block &block, Network *soureNet = nullptr);
+	Convolution *blockToConv(Block &block, Network *sourceNet);
+	MaxPooling *blockToMaxPooling(Block &block, Network *sourceNet);
 	
 	Data blockToData(Block &block);
 	

@@ -8,7 +8,8 @@
 #include "layers/Network.hpp"
 #include "Parser.hpp"
 
-#define MIN_CHECKS 500
+#define MIN_CHECKS 1000
+#define ACCEPTABLE_ERR .1f
 
 class Teacher
 {
@@ -16,11 +17,10 @@ public:
 	Teacher() {}
 	~Teacher() {}
 	
-	void readWeights(string filename, Network &network);
 	void teach(Network &network, vector<Data> &in, vector<Data> &out, int iterations, string fileForErrors = "");
-	
-	void writeWeights(Network network, string filename);
 };
 
+void readWeights(string filename, Network &network);
+void writeWeights(Network network, string filename);
 
 #endif //GENERALIZEDNET_TEACHER_HPP
