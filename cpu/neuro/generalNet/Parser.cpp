@@ -66,7 +66,7 @@ Network *Parser::blockToNetwork(Block &block, Network *sourceNet) {
 	int lastIndex = 0;
 	for(int i = 0; i < blocks.size(); ++i) {
 		if(blocks[i].what == "convolution") {
-			network->layer[lastIndex] = blockToConv(blocks[i], network);
+			network->layer[lastIndex] = blockToConvolution(blocks[i], network);
 			++lastIndex;
 		}
 		if(blocks[i].what == "max_pooling") {
@@ -77,48 +77,44 @@ Network *Parser::blockToNetwork(Block &block, Network *sourceNet) {
 			network->layer[lastIndex] = blockToNetwork(blocks[i], network);
 			++lastIndex;
 		}
+		if(blocks[i].what == "norming") {
+			network->layer[lastIndex] = blockToNorming(blocks[i], network);
+			++lastIndex;
+		}
 		if(lastIndex > layersN)
 			throw "more layers than expected";
 	}
 	
-	// построить последовательность выполнения слоев
-	int seqId = -1;
-	for(int i = 0; i < blocks.size(); ++i)
-		if(blocks[i].what == "sequence")
-			seqId = i;
-	
-	if(seqId == -1)
-		throw "sequence not found";
-	if(layersN != blocks[seqId].size() )
-		throw "error with sequence length";
-	
-	for(int i = 0; i < blocks[seqId].size(); ++i)
-		network->seq[i] = network->nameToLayerId(blocks[seqId][i][0]);
-	
 	return network;
 }
 
-Convolution *Parser::blockToConv(Block &block, Network *sourceNet) {
-	int K = block.getInt("kernel");
-	int S = block.getInt("stride");
-	Convolution *conv = new Convolution(K, S, block.name);
+void setDendAndAxons(Layer *layer, Block &block, Network *sourceNet) {
 	Data dendrite = sourceNet->nameToData(block.getString("dendrite"));
 	Data axon = sourceNet->nameToData(block.getString("axon"));
 	Data eDendrite = sourceNet->nameToErrorData(block.getString("dendrite"));
 	Data eAxon = sourceNet->nameToErrorData(block.getString("axon"));
-	conv->setData(dendrite, axon, eDendrite, eAxon);
+	layer->setData(dendrite, axon, eDendrite, eAxon);
+}
+
+Convolution *Parser::blockToConvolution(Block &block, Network *sourceNet) {
+	int K = block.getInt("kernel");
+	int S = block.getInt("stride");
+	Convolution *conv = new Convolution(K, S, block.name);
+	setDendAndAxons(conv, block, sourceNet);
 	return conv;
 }
 
 MaxPooling *Parser::blockToMaxPooling(Block &block, Network *sourceNet) {
 	int K = block.getInt("kernel");
 	MaxPooling *mp = new MaxPooling(K, block.name);
-	Data dendrite = sourceNet->nameToData(block.getString("dendrite"));
-	Data axon = sourceNet->nameToData(block.getString("axon"));
-	Data eDendrite = sourceNet->nameToErrorData(block.getString("dendrite"));
-	Data eAxon = sourceNet->nameToErrorData(block.getString("axon"));
-	mp->setData(dendrite, axon, eDendrite, eAxon);
+	setDendAndAxons(mp, block, sourceNet);
 	return mp;
+}
+
+Norming *Parser::blockToNorming(Block &block, Network *sourceNet) {
+	Norming *norming = new Norming(block.name);
+	setDendAndAxons(norming, block, sourceNet);
+	return norming;
 }
 
 Data Parser::blockToData(Block &block) {

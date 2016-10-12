@@ -17,9 +17,6 @@ public:
 	Layer(string sName) : name(sName) {}
 	~Layer(){}
 	
-	//virtual Layer operator=(Layer);
-	
-	virtual bool check();
 	virtual void compute();
 	virtual void proceedError();
 	virtual void setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAxon);

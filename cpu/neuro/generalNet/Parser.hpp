@@ -13,6 +13,7 @@
 #include "layers/Convolution.hpp"
 #include "layers/Subsampling.hpp"
 #include "layers/MaxPooling.hpp"
+#include "layers/Norming.hpp"
 
 using namespace std;
 
@@ -55,8 +56,9 @@ public:
 	Parser() {}
 	
 	Network *blockToNetwork(Block &block, Network *soureNet = nullptr);
-	Convolution *blockToConv(Block &block, Network *sourceNet);
+	Convolution *blockToConvolution(Block &block, Network *sourceNet);
 	MaxPooling *blockToMaxPooling(Block &block, Network *sourceNet);
+	Norming *blockToNorming(Block &block, Network *sourceNet);
 	
 	Data blockToData(Block &block);
 	

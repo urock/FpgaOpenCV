@@ -9,21 +9,9 @@ Network::Network(int sDN, int sLN, string name) : Layer(name), dN(sDN), lN(sLN) 
 	data = new Data[dN];
 	deriv = new Data[dN];
 	layer = new Layer*[lN];
-	seq = (int*) malloc(lN * sizeof(int));
 }
 
 Network::~Network() {}
-
-Network &Network::operator=(Network const &network) {
-	Layer::operator=(network);
-	dN = network.dN;
-	lN = network.lN;
-	data = network.data;
-	deriv = network.deriv;
-	layer = network.layer;
-	seq = network.seq;
-	return *this;
-}
 
 Data &Network::nameToData(string name) {
 	for(int i = 0; i < dN; ++i)
@@ -55,22 +43,15 @@ int Network::nameToLayerId(string name) {
 	return -1;
 }
 
-bool Network::check() {
-	bool res = true;
-	for(int i = 0; i < lN; ++i)
-		res = res && layer[i]->check();
-	return res;
-}
-
 void Network::compute() {
 	for(int i = 0; i < lN; ++i)
-		layer[seq[i]]->compute();
+		layer[i]->compute();
 }
 void Network::proceedError() {
 	for(int i = 0; i < dN; ++i)
 		deriv[i].resetMem();
 	for(int i = lN - 1; i >= 0; --i)
-		layer[seq[i]]->proceedError();
+		layer[i]->proceedError();
 }
 
 vector<flt*> Network::getWeights() {

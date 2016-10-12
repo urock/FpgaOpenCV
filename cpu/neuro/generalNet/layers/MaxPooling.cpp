@@ -17,12 +17,6 @@ void MaxPooling::setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAxo
 	choice.initMem();
 }
 
-MaxPooling &MaxPooling::operator=(const MaxPooling &maxPooling) {
-	Subsampling::operator=(maxPooling);
-	choice = maxPooling.choice;
-	return *this;
-}
-
 void MaxPooling::compute() {
 	for(int i = 0; i < axon.N; ++i)
 		for(int j = 0; j < axon.M; ++j)

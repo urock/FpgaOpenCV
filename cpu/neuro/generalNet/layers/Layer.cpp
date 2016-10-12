@@ -4,7 +4,6 @@
 
 #include "Layer.hpp"
 
-bool Layer::check() {}
 void Layer::compute() {}
 void Layer::proceedError() {}
 

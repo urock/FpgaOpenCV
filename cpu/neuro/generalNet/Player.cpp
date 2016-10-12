@@ -81,7 +81,9 @@ Player::processVideeo(Network *network, vector<Data> &theory, vector<string> &na
 	Size S = Size((int) cap.get(CV_CAP_PROP_FRAME_WIDTH),    // Acquire input size
 				  (int) cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 	VideoWriter wr;
-	wr.open(outputName, cap.get(CV_CAP_PROP_FOURCC), cap.get(CV_CAP_PROP_FPS), S, true);
+	double fps = cap.get(CV_CAP_PROP_FPS);
+	fps = 15; // COSTyL
+	wr.open(outputName, cap.get(CV_CAP_PROP_FOURCC), fps, S, true);
 	if (!wr.isOpened()) {
 		cout  << "Could not open the output video for write" << endl;
 		return;

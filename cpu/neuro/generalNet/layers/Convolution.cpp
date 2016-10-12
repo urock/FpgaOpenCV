@@ -7,26 +7,9 @@
 
 Convolution::Convolution(int sK, int sS, string sName) : K(sK), S(sS), Layer(sName) {}
 
-Convolution &Convolution::operator=(Convolution const &convolution) {
-	Layer::operator=(convolution);
-	K = convolution.K;
-	N = convolution.N;
-	weight = convolution.weight;
-	grad = convolution.grad;
-	bias = convolution.bias;
-	biasGrad = convolution.biasGrad;
-	preaxon = convolution.preaxon;
-	K = convolution.K;
-	S = convolution.S;
-	N = convolution.N;
-	M = convolution.M;
-	os = convolution.os;
-	is = convolution.is;
-	return *this;
-}
-
 void Convolution::setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAxon) {
 	Layer::setData(sDendrite, sAxon, sEDendrite, sEAxon);
+	
 	preaxon = axon;
 	bias = axon;
 	biasGrad = axon;
@@ -46,6 +29,9 @@ void Convolution::setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAx
 	is = dendrite.M;
 	os = axon.M;
 	
+	if(os != (is - (K - S)) / S || (is - (K - S)) % S != 0)
+		throw "sizes of maps do not match";
+	
 	weight = (flt****) malloc( sizeof(flt***) * N );
 	grad = (flt****) malloc( sizeof(flt***) * N );
 	for(int i = 0; i < N; ++i){
@@ -63,16 +49,6 @@ void Convolution::setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAx
 			}
 		}
 	}
-}
-
-bool Convolution::check() {
-	if(os != axon.M || is != dendrite.M)
-		throw "size error";
-	if(N != axon.N || M != dendrite.N)
-		throw "formats error";
-	if(is != (os - (K - S)) / S || (os - (K - S)) % S != 0)
-		throw "sizes of maps do not match";
-	return true;
 }
 
 vector<flt*> Convolution::stretchArray(flt ****a) {

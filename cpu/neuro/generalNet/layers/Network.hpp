@@ -16,13 +16,10 @@ public:
 	Network(int sDN, int sLN, string name);
 	~Network();
 	
-	Network &operator=(Network const &network);
-	
 	Data &nameToData(string name);
 	Data &nameToErrorData(string name);
 	int nameToLayerId(string name);
 	
-	bool check();
 	void compute();
 	void proceedError();
 	
@@ -35,8 +32,6 @@ public:
 	Data *deriv;
 	
 	Layer **layer;
-	
-	int *seq;
 };
 
 

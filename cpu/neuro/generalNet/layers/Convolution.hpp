@@ -13,17 +13,14 @@ public:
 	Convolution() {}
 	Convolution(int sK, int sS, string sName);
 	~Convolution() {}
-	virtual void setData(Data dendrite, Data axon, Data sEDendrite, Data sEAxon);
-	virtual bool check();
-	
-	Convolution &operator=(Convolution const &);
+	virtual void setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAxon);
 	
 	virtual void compute();
 	virtual void proceedError();
 	
-	vector<flt*> stretchArray(flt ****a);
 	virtual vector<flt*> getWeights();
 	virtual vector<flt*> getGrads();
+	vector<flt*> stretchArray(flt ****a);
 	
 	flt ****weight; // [neuron] [map] [x] [y]
 	flt ****grad; // [neuron] [map] [x] [y]

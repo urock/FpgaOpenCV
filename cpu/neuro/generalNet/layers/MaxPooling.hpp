@@ -16,8 +16,6 @@ public:
 	virtual void proceedError();
 	virtual void setData(Data sDendrite, Data sAxon, Data sEDendrite, Data sEAxon);
 	
-	MaxPooling &operator=(const MaxPooling &);
-	
 	Data choice;
 };
 
