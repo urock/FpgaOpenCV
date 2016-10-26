@@ -177,34 +177,50 @@ void cluster_filter(YUV_IMAGE& src, YUV_IMAGE& dst, int rows, int cols)
 
 	hls::LineBuffer<1, MAX_WIDTH, YUV_PIXEL> lineb;
 
-	YUV_PIXEL new_pix;
-	YUV_PIXEL line_pix;
+	YUV_PIXEL A, B, C;
+	YUV_PIXEL new_pix, last_pix;
+	YUV_PIXEL line_pix, out_pix;
+
+	unsigned char cur_obj = 1;
 
 
-	for(int row = 0; row < rows + 1; row++) {
+	// pixel.val[0] - intesity
+	// pixel.val[1] - chroma
+	for(int row = 0; row < rows; row++) {
 		for(int col = 0; col < cols; col++) {
 
-//			if (row == 0) {
-//				src >> new_pix;
-//				dst << new_pix;
-//			} el
-
-
-			if (row != 0) {
-				line_pix = lineb.getval(0,col);
-				dst << line_pix;
+			if (row == 0) {
+				C = 0;
+			} else {
+				C = lineb.getval(0, col);
 			}
 
-
-			if (row < rows) {
-				src >> new_pix;
-				lineb.insert_top(new_pix, col);
+			if (col == 0) {
+				B = 0;
+			} else {
+				B = last_pix;
 			}
 
+			src >> new_pix;
+			A = new_pix;
 
+			if (A.val[0] == 0) {
+				out_pix = A;
+			} else if ((B.val[0] == 0) && (C.val[0] == 0)) {
+				out_pix.val[0] = 255;
+				out_pix.val[1] = cur_obj++;
+			} else if ((B.val[0] != 0) && (C.val[0] == 0)) {
+				out_pix = B;
+			} else if ((B.val[0] == 0) && (C.val[0] != 0)) {
+				out_pix = C;
+			} else if ((B.val[0] != 0) && (C.val[0] != 0)) {
+				out_pix = B;
+			}
+			last_pix = out_pix;
+			lineb.insert_top(out_pix, col);
 
-//			src >> new_pix;
-//			dst << new_pix;
+			dst << out_pix;
+
 		}
 	}
 
